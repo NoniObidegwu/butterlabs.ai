@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Butter Labs - Accent-Aware Conversational AI</title>
+    <style>
+:root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  /* RGB versions for opacity control */
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  /* Background color tokens (Light Mode) */
+  --color-bg-1: rgba(59, 130, 246, 0.08); /* Light blue */
+  --color-bg-2: rgba(245, 158, 11, 0.08); /* Light yellow */
+  --color-bg-3: rgba(34, 197, 94, 0.08); /* Light green */
+  --color-bg-4: rgba(239, 68, 68, 0.08); /* Light red */
+  --color-bg-5: rgba(147, 51, 234, 0.08); /* Light purple */
+  --color-bg-6: rgba(249, 115, 22, 0.08); /* Light orange */
+  --color-bg-7: rgba(236, 72, 153, 0.08); /* Light pink */
+  --color-bg-8: rgba(6, 182, 212, 0.08); /* Light cyan */
+
+  /* Semantic Color Tokens (Light Mode) */
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  /* Common style patterns */
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+  /* RGB versions for opacity control */
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+
+  /* Typography */
+  --font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+}
+
+/* Dark mode colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-bg-7: rgba(190, 24, 93, 0.15);
+    --color-bg-8: rgba(8, 145, 178, 0.15);
+    
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+
+    --color-success-rgb: var(--color-teal-300-rgb);
+    --color-error-rgb: var(--color-red-400-rgb);
+    --color-warning-rgb: var(--color-orange-400-rgb);
+    --color-info-rgb: var(--color-gray-300-rgb);
+  }
+}
+
+/* Base styles */
+html {
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+h1 { font-size: var(--font-size-4xl); }
+h2 { font-size: var(--font-size-3xl); }
+h3 { font-size: var(--font-size-2xl); }
+h4 { font-size: var(--font-size-xl); }
+h5 { font-size: var(--font-size-lg); }
+h6 { font-size: var(--font-size-md); }
+
+p {
+  margin: 0 0 var(--space-16) 0;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+code, pre {
+  font-family: var(--font-family-mono);
+  font-size: calc(var(--font-size-base) * 0.95);
+  background-color: var(--color-secondary);
+  border-radius: var(--radius-sm);
+}
+
+code {
+  padding: var(--space-1) var(--space-4);
+}
+
+pre {
+  padding: var(--space-16);
+  margin: var(--space-16) 0;
+  overflow: auto;
+  border: 1px solid var(--color-border);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+  border: none;
+  text-decoration: none;
+  position: relative;
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn--primary:active {
+  background: var(--color-primary-active);
+}
+
+.btn--secondary {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.btn--secondary:hover {
+  background: var(--color-secondary-hover);
+}
+
+.btn--secondary:active {
+  background: var(--color-secondary-active);
+}
+
+.btn--outline {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.btn--outline:hover {
+  background: var(--color-secondary);
+}
+
+.btn--sm {
+  padding: var(--space-4) var(--space-12);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-sm);
+}
+
+.btn--lg {
+  padding: var(--space-10) var(--space-20);
+  font-size: var(--font-size-lg);
+  border-radius: var(--radius-md);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Form elements */
+.form-control {
+  display: block;
+  width: 100%;
+  padding: var(--space-8) var(--space-12);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+select.form-control {
+  padding: var(--space-8) var(--space-12);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: var(--select-caret-light);
+  background-repeat: no-repeat;
+  background-position: right var(--space-12) center;
+  background-size: 16px;
+  padding-right: var(--space-32);
+}
+
+@media (prefers-color-scheme: dark) {
+  select.form-control {
+    background-image: var(--select-caret-dark);
+  }
+}
+
+.form-control:focus {
+  border-color: var(--color-primary);
+  outline: var(--focus-outline);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--space-8);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+}
+
+.form-group {
+  margin-bottom: var(--space-16);
+}
+
+/* Container layout */
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: var(--space-16);
+  padding-left: var(--space-16);
+}
+
+@media (min-width: 640px) { .container { max-width: var(--container-sm); } }
+@media (min-width: 768px) { .container { max-width: var(--container-md); } }
+@media (min-width: 1024px) { .container { max-width: var(--container-lg); } }
+@media (min-width: 1280px) { .container { max-width: var(--container-xl); } }
+
+/* Navigation */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(var(--color-slate-900-rgb), 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 1000;
+  padding: var(--space-12) 0;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-8);
+}
+
+.nav-brand h2 {
+  color: var(--color-primary);
+  font-size: var(--font-size-2xl);
+  margin: 0;
+}
+
+.nav-tagline {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-normal);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: var(--space-24);
+  margin: 0;
+}
+
+.nav-link {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: color var(--duration-fast) var(--ease-standard);
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-base);
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--color-primary);
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+}
+
+/* Section Management */
+.section {
+  display: none;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.section.active {
+  display: block;
+}
+
+.section-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-bottom: var(--space-32);
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, var(--color-bg-1), var(--color-bg-5));
+  padding: var(--space-32) 0;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: clamp(var(--font-size-4xl), 8vw, 4rem);
+  margin-bottom: var(--space-16);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-teal-300));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-16);
+  font-weight: var(--font-weight-medium);
+}
+
+.hero-description {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-32);
+  font-style: italic;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-32);
+  margin-bottom: var(--space-32);
+  flex-wrap: wrap;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+/* Features Section */
+.features-section {
+  padding: var(--space-32) 0;
+}
+
+.features-section h2 {
+  text-align: center;
+  margin-bottom: var(--space-32);
+}
+
+.comparison-highlight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-32);
+  margin-bottom: var(--space-32);
+  flex-wrap: wrap;
+}
+
+.comparison-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  text-align: center;
+  min-width: 200px;
+}
+
+.comparison-card h3 {
+  margin-bottom: var(--space-16);
+}
+
+.accuracy-bar {
+  width: 100%;
+  height: 24px;
+  background: var(--color-secondary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--space-12);
+}
+
+.accuracy-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 2s var(--ease-standard);
+}
+
+.accuracy-fill.butter-labs {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-teal-300));
+  width: 98%;
+}
+
+.accuracy-fill.competitor {
+  background: linear-gradient(90deg, var(--color-warning), var(--color-orange-400));
+  width: 76%;
+}
+
+.accuracy-label {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+.vs {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+}
+
+.target-markets {
+  margin-bottom: var(--space-32);
+  text-align: center;
+}
+
+.target-markets h3 {
+  margin-bottom: var(--space-24);
+}
+
+.market-grid {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.market-card {
+  background: var(--color-bg-3);
+  color: var(--color-text);
+  padding: var(--space-12) var(--space-20);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-medium);
+  border: 1px solid rgba(var(--color-teal-500-rgb), 0.2);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-24);
+}
+
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  text-align: center;
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-16);
+}
+
+.feature-card h3 {
+  margin-bottom: var(--space-12);
+  color: var(--color-primary);
+}
+
+/* Demo Section */
+.demo-interface {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  margin-bottom: var(--space-32);
+}
+
+.demo-controls {
+  display: flex;
+  gap: var(--space-16);
+  margin-bottom: var(--space-32);
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.demo-controls .form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.demo-visualization {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--space-24);
+  align-items: center;
+  margin-bottom: var(--space-32);
+}
+
+.waveform-container {
+  text-align: center;
+}
+
+.waveform-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-12);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.waveform {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  align-items: flex-end;
+  height: 80px;
+  padding: var(--space-16);
+  background: var(--color-bg-8);
+  border-radius: var(--radius-base);
+}
+
+.wave-bar {
+  width: 4px;
+  background: var(--color-primary);
+  border-radius: var(--radius-sm);
+  transition: height var(--duration-normal) var(--ease-standard);
+  min-height: 8px;
+}
+
+.processing-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  opacity: 0;
+  transition: opacity var(--duration-normal);
+}
+
+.processing-indicator.active {
+  opacity: 1;
+}
+
+.processing-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-secondary);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.demo-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-24);
+}
+
+.result-card {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-base);
+  padding: var(--space-20);
+}
+
+.result-card h3 {
+  margin-bottom: var(--space-16);
+  color: var(--color-primary);
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+}
+
+.result-label {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.result-value {
+  font-weight: var(--font-weight-semibold);
+}
+
+.conversation-example {
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-base);
+  padding: var(--space-20);
+}
+
+.conversation-example h3 {
+  margin-bottom: var(--space-16);
+  color: var(--color-primary);
+}
+
+.conversation-messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.message {
+  padding: var(--space-12);
+  border-radius: var(--radius-base);
+}
+
+.message.user {
+  background: var(--color-bg-4);
+  align-self: flex-end;
+  max-width: 80%;
+}
+
+.message.ai {
+  background: var(--color-bg-3);
+  align-self: flex-start;
+  max-width: 80%;
+}
+
+.message-text {
+  display: block;
+  margin-bottom: var(--space-4);
+}
+
+.message-accent, .message-note {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* Footer */
+.footer {
+  background: var(--color-slate-900);
+  color: var(--color-gray-200);
+  padding: var(--space-32) 0 var(--space-16);
+  margin-top: var(--space-32);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-32);
+  margin-bottom: var(--space-32);
+}
+
+.footer-brand h3 {
+  color: var(--color-teal-300);
+  margin-bottom: var(--space-8);
+}
+
+.footer-brand p {
+  color: var(--color-gray-300);
+  margin-bottom: var(--space-4);
+}
+
+.footer-tagline {
+  font-style: italic;
+}
+
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-24);
+}
+
+.footer-section h4 {
+  color: var(--color-teal-300);
+  margin-bottom: var(--space-16);
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section li {
+  margin-bottom: var(--space-8);
+}
+
+.footer-section a {
+  color: var(--color-gray-300);
+  text-decoration: none;
+  transition: color var(--duration-fast);
+}
+
+.footer-section a:hover {
+  color: var(--color-teal-300);
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-16);
+  border-top: 1px solid rgba(var(--color-gray-400-rgb), 0.3);
+  flex-wrap: wrap;
+  gap: var(--space-16);
+}
+
+.footer-legal {
+  display: flex;
+  gap: var(--space-16);
+}
+
+.footer-legal a {
+  color: var(--color-gray-300);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+}
+
+.footer-legal a:hover {
+  color: var(--color-teal-300);
+}
+
+@media (max-width: 768px) {
+  .demo-visualization {
+    grid-template-columns: 1fr;
+    gap: var(--space-16);
+  }
+  
+  .demo-results {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-links {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h2>Butter Labs</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#demo" class="nav-link">Demo</a></li>
+                <li><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li><a href="#flows" class="nav-link">User Flows</a></li>
+                <li><a href="#api" class="nav-link">API Docs</a></li>
+                <li><a href="#analytics" class="nav-link">Analytics</a></li>
+                <li><a href="#getting-started" class="nav-link">Get Started</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle">☰</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Landing Page Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Butter Labs</h1>
+                        <p class="hero-subtitle">The world's first accent-aware conversational AI</p>
+                        <p class="hero-description">To give every European voice and every voice in Europe and the UK its value to make them feel seen, included, heard</p>
+                        
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-number">98%</span>
+                                <span class="stat-label">Accuracy</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">14</span>
+                                <span class="stat-label">Regional Accents</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">£30B</span>
+                                <span class="stat-label">Annual Savings</span>
+                            </div>
+                        </div>
+
+                        <div class="hero-actions">
+                            <button class="btn btn--primary btn--lg" id="tryDemoBtn">Try Interactive Demo</button>
+                            <button class="btn btn--outline btn--lg" id="learnMoreBtn">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-section">
+                <div class="container">
+                    <h2>Why Butter Labs Outperforms Competition</h2>
+                    <div class="comparison-highlight">
+                        <div class="comparison-card">
+                            <h3>Butter Labs</h3>
+                            <div class="accuracy-bar">
+                                <div class="accuracy-fill butter-labs" data-accuracy="98"></div>
+                            </div>
+                            <span class="accuracy-label">98% Accuracy</span>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="comparison-card">
+                            <h3>Competitors</h3>
+                            <div class="accuracy-bar">
+                                <div class="accuracy-fill competitor" data-accuracy="76"></div>
+                            </div>
+                            <span class="accuracy-label">76% Accuracy</span>
+                        </div>
+                    </div>
+
+                    <div class="target-markets">
+                        <h3>Trusted by Leading Industries</h3>
+                        <div class="market-grid">
+                            <div class="market-card">Utilities</div>
+                            <div class="market-card">Telecom</div>
+                            <div class="market-card">Healthcare</div>
+                            <div class="market-card">Financial Services</div>
+                            <div class="market-card">Public Sector</div>
+                        </div>
+                    </div>
+
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Real-time Accent Recognition</h3>
+                            <p>Instantly identifies and adapts to 14 UK regional accents</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔒</div>
+                            <h3>Privacy-first Architecture</h3>
+                            <p>Enterprise-grade security with data protection compliance</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h3>Seamless Integration</h3>
+                            <p>Easy to implement with existing call center infrastructure</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💰</div>
+                            <h3>Cost-effective Scaling</h3>
+                            <p>Handle 7 billion customer calls with significant cost savings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Demo Section -->
+        <section id="demo" class="section">
+            <div class="container">
+                <h2>Interactive Demo</h2>
+                <p class="section-subtitle">Experience Butter Labs' accent recognition in action</p>
+
+                <div class="demo-interface">
+                    <div class="demo-controls">
+                        <div class="form-group">
+                            <label class="form-label">Select Accent:</label>
+                            <select class="form-control" id="accentSelect">
+                                <option value="">Choose an accent...</option>
+                                <option value="scottish">Scottish</option>
+                                <option value="welsh">Welsh</option>
+                                <option value="northern-irish">Northern Irish</option>
+                                <option value="geordie">Geordie</option>
+                                <option value="yorkshire">Yorkshire</option>
+                                <option value="cornish">Cornish</option>
+                                <option value="brummie">Brummie</option>
+                                <option value="scouse">Scouse</option>
+                                <option value="devon">Devon</option>
+                                <option value="norfolk">Norfolk</option>
+                                <option value="cockney">Cockney</option>
+                                <option value="rp">Received Pronunciation</option>
+                                <option value="west-country">West Country</option>
+                                <option value="midlands">Midlands</option>
+                            </select>
+                        </div>
+                        <button class="btn btn--primary" id="startDemo">Start Recognition</button>
+                    </div>
+
+                    <div class="demo-visualization">
+                        <div class="waveform-container">
+                            <div class="waveform-label">Audio Input</div>
+                            <div class="waveform" id="inputWaveform">
+                                <div class="wave-bar" style="height: 20%"></div>
+                                <div class="wave-bar" style="height: 45%"></div>
+                                <div class="wave-bar" style="height: 80%"></div>
+                                <div class="wave-bar" style="height: 60%"></div>
+                                <div class="wave-bar" style="height: 90%"></div>
+                                <div class="wave-bar" style="height: 30%"></div>
+                                <div class="wave-bar" style="height: 70%"></div>
+                                <div class="wave-bar" style="height: 40%"></div>
+                                <div class="wave-bar" style="height: 85%"></div>
+                                <div class="wave-bar" style="height: 25%"></div>
+                            </div>
+                        </div>
+
+                        <div class="processing-indicator">
+                            <div class="processing-spinner"></div>
+                            <span>Processing...</span>
+                        </div>
+
+                        <div class="waveform-container">
+                            <div class="waveform-label">Processed Output</div>
+                            <div class="waveform" id="outputWaveform">
+                                <div class="wave-bar" style="height: 25%"></div>
+                                <div class="wave-bar" style="height: 50%"></div>
+                                <div class="wave-bar" style="height: 75%"></div>
+                                <div class="wave-bar" style="height: 60%"></div>
+                                <div class="wave-bar" style="height: 80%"></div>
+                                <div class="wave-bar" style="height: 35%"></div>
+                                <div class="wave-bar" style="height: 70%"></div>
+                                <div class="wave-bar" style="height: 45%"></div>
+                                <div class="wave-bar" style="height: 85%"></div>
+                                <div class="wave-bar" style="height: 30%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-results">
+                        <div class="result-card">
+                            <h3>Recognition Results</h3>
+                            <div class="result-item">
+                                <span class="result-label">Detected Accent:</span>
+                                <span class="result-value" id="detectedAccent">-</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Confidence:</span>
+                                <span class="result-value" id="confidenceScore">-</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Processing Time:</span>
+                                <span class="result-value" id="processingTime">-</span>
+                            </div>
+                        </div>
+
+                        <div class="conversation-example">
+                            <h3>Sample Conversation</h3>
+                            <div class="conversation-messages" id="conversationMessages">
+                                <div class="message user">
+                                    <span class="message-text">Hello, I need help with my account</span>
+                                    <span class="message-accent">(Scottish accent detected)</span>
+                                </div>
+                                <div class="message ai">
+                                    <span class="message-text">Hello! I'd be happy to help you with your account. Can you please provide your account number?</span>
+                                    <span class="message-note">(Response adapted for Scottish accent patterns)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Architecture Section -->
+        <section id="architecture" class="section">
+            <div class="container">
+                <h2>Technical Architecture</h2>
+                <p class="section-subtitle">Built for enterprise-grade performance and scalability</p>
+
+                <div class="demo-interface">
+                    <h3>Butter Labs Technical Architecture</h3>
+                    <div style="background: var(--color-bg-1); padding: var(--space-32); border-radius: var(--radius-lg); text-align: center; margin-bottom: var(--space-32);">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-24); margin-bottom: var(--space-24);">
+                            <div style="background: var(--color-primary); color: var(--color-btn-primary-text); padding: var(--space-16); border-radius: var(--radius-base);">
+                                <strong>Accent Recognition Engine</strong><br>
+                                <small>98% Accuracy</small>
+                            </div>
+                            <div style="background: var(--color-secondary); padding: var(--space-16); border-radius: var(--radius-base);">
+                                <strong>Natural Language Understanding</strong><br>
+                                <small>Multi-dialect NLU</small>
+                            </div>
+                            <div style="background: var(--color-bg-3); padding: var(--space-16); border-radius: var(--radius-base);">
+                                <strong>Dialogue Management</strong><br>
+                                <small>Context-aware responses</small>
+                            </div>
+                            <div style="background: var(--color-bg-6); padding: var(--space-16); border-radius: var(--radius-base);">
+                                <strong>Voice Processing Pipeline</strong><br>
+                                <small>Real-time processing</small>
+                            </div>
+                        </div>
+                        <p style="margin: 0; color: var(--color-text-secondary);">Enterprise-grade architecture with 99.9% uptime and < 100ms response time</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Flows Section -->
+        <section id="flows" class="section">
+            <div class="container">
+                <h2>User Flows</h2>
+                <p class="section-subtitle">Understand how Butter Labs integrates into your workflow</p>
+
+                <div class="demo-interface">
+                    <h3>Customer Journey with Butter Labs</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-24);">
+                        <div style="background: var(--color-bg-1); padding: var(--space-20); border-radius: var(--radius-base); text-align: center;">
+                            <div style="width: 40px; height: 40px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-12); font-weight: bold;">1</div>
+                            <h4>Initial Contact</h4>
+                            <p style="margin: 0; color: var(--color-text-secondary);">Customer calls with natural accent</p>
+                        </div>
+                        <div style="background: var(--color-bg-2); padding: var(--space-20); border-radius: var(--radius-base); text-align: center;">
+                            <div style="width: 40px; height: 40px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-12); font-weight: bold;">2</div>
+                            <h4>Accent Detection</h4>
+                            <p style="margin: 0; color: var(--color-text-secondary);">Instant recognition of regional patterns</p>
+                        </div>
+                        <div style="background: var(--color-bg-3); padding: var(--space-20); border-radius: var(--radius-base); text-align: center;">
+                            <div style="width: 40px; height: 40px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-12); font-weight: bold;">3</div>
+                            <h4>Adaptive Processing</h4>
+                            <p style="margin: 0; color: var(--color-text-secondary);">AI adjusts for optimal understanding</p>
+                        </div>
+                        <div style="background: var(--color-bg-4); padding: var(--space-20); border-radius: var(--radius-base); text-align: center;">
+                            <div style="width: 40px; height: 40px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-12); font-weight: bold;">4</div>
+                            <h4>Natural Conversation</h4>
+                            <p style="margin: 0; color: var(--color-text-secondary);">Seamless accent-aware dialogue</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Documentation Section -->
+        <section id="api" class="section">
+            <div class="container">
+                <h2>API Documentation</h2>
+                <p class="section-subtitle">Integrate Butter Labs into your applications</p>
+
+                <div class="demo-interface">
+                    <h3>REST API & WebSocket Integration</h3>
+                    <p>Our comprehensive API allows you to integrate Butter Labs' accent-aware conversational capabilities into any application.</p>
+                    
+                    <div style="background: var(--color-bg-1); padding: var(--space-16); border-radius: var(--radius-base); margin-bottom: var(--space-24);">
+                        <h4>Base URL</h4>
+                        <code>https://api.butterlabs.ai/v1</code>
+                    </div>
+
+                    <div style="display: grid; gap: var(--space-24);">
+                        <div style="background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-lg); overflow: hidden;">
+                            <div style="background: var(--color-bg-5); padding: var(--space-16); display: flex; align-items: center; gap: var(--space-12);">
+                                <span style="background: var(--color-bg-4); padding: var(--space-4) var(--space-8); border-radius: var(--radius-sm); font-size: var(--font-size-xs); font-weight: bold; text-transform: uppercase;">POST</span>
+                                <code>/api/v1/speech/analyze</code>
+                            </div>
+                            <div style="padding: var(--space-20);">
+                                <p>Analyze speech input and detect accent</p>
+                                <div style="margin: var(--space-16) 0;">
+                                    <h5 style="margin-bottom: var(--space-8); color: var(--color-primary); font-size: var(--font-size-sm);">Request Example:</h5>
+                                    <pre style="background: var(--color-secondary); padding: var(--space-12); border-radius: var(--radius-sm); overflow-x: auto;"><code>{
+  "audio_data": "base64_encoded_audio",
+  "format": "wav",
+  "sample_rate": 16000
+}</code></pre>
+                                </div>
+                                <div style="margin: var(--space-16) 0;">
+                                    <h5 style="margin-bottom: var(--space-8); color: var(--color-primary); font-size: var(--font-size-sm);">Response Example:</h5>
+                                    <pre style="background: var(--color-secondary); padding: var(--space-12); border-radius: var(--radius-sm); overflow-x: auto;"><code>{
+  "accent": "scottish",
+  "confidence": 0.96,
+  "text": "Hello, I need help with my account",
+  "processing_time_ms": 85
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-lg); overflow: hidden;">
+                            <div style="background: var(--color-bg-3); padding: var(--space-16); display: flex; align-items: center; gap: var(--space-12);">
+                                <span style="background: var(--color-bg-3); padding: var(--space-4) var(--space-8); border-radius: var(--radius-sm); font-size: var(--font-size-xs); font-weight: bold; text-transform: uppercase;">GET</span>
+                                <code>/api/v1/accents/supported</code>
+                            </div>
+                            <div style="padding: var(--space-20);">
+                                <p>Get list of supported accents</p>
+                                <div style="margin: var(--space-16) 0;">
+                                    <h5 style="margin-bottom: var(--space-8); color: var(--color-primary); font-size: var(--font-size-sm);">Response Example:</h5>
+                                    <pre style="background: var(--color-secondary); padding: var(--space-12); border-radius: var(--radius-sm); overflow-x: auto;"><code>{
+  "accents": [
+    "scottish", "welsh", "northern_irish",
+    "geordie", "yorkshire", "cornish",
+    "brummie", "scouse", "devon",
+    "norfolk", "cockney", "rp",
+    "west_country", "midlands"
+  ],
+  "total_count": 14
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Analytics Section -->
+        <section id="analytics" class="section">
+            <div class="container">
+                <h2>Performance Analytics</h2>
+                <p class="section-subtitle">Real-time insights and comprehensive metrics</p>
+
+                <div class="demo-interface">
+                    <h3>Real-time Metrics Dashboard</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-20); margin-bottom: var(--space-32);">
+                        <div style="background: var(--color-bg-1); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-20); text-align: center;">
+                            <h4 style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-8);">Active Calls</h4>
+                            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-4);">2,847</div>
+                            <div style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-success);">↑ 12%</div>
+                        </div>
+                        <div style="background: var(--color-bg-2); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-20); text-align: center;">
+                            <h4 style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-8);">Average Accuracy</h4>
+                            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-4);">98.2%</div>
+                            <div style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-success);">↑ 0.3%</div>
+                        </div>
+                        <div style="background: var(--color-bg-3); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-20); text-align: center;">
+                            <h4 style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-8);">Response Time</h4>
+                            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-4);">89ms</div>
+                            <div style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-success);">↓ 5ms</div>
+                        </div>
+                        <div style="background: var(--color-bg-4); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-20); text-align: center;">
+                            <h4 style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-8);">Cost Savings</h4>
+                            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-4);">£127K</div>
+                            <div style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-success);">↑ £23K</div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--color-bg-1); border-radius: var(--radius-base); padding: var(--space-24);">
+                        <h4 style="margin-bottom: var(--space-16); color: var(--color-primary);">Accent Distribution (Last 24h)</h4>
+                        <div style="display: flex; flex-direction: column; gap: var(--space-12);">
+                            <div style="display: flex; align-items: center; gap: var(--space-12);">
+                                <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Scottish</span>
+                                <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
+                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-teal-300)); border-radius: var(--radius-sm); width: 18%;"></div>
+                                </div>
+                                <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">18%</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: var(--space-12);">
+                                <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Yorkshire</span>
+                                <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
+                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-teal-300)); border-radius: var(--radius-sm); width: 15%;"></div>
+                                </div>
+                                <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">15%</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: var(--space-12);">
+                                <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Geordie</span>
+                                <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
+                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-teal-300)); border-radius: var(--radius-sm); width: 12%;"></div>
+                                </div>
+                                <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">12%</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: var(--space-12);">
+                                <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Other</span>
+                                <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
+                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-teal-300)); border-radius: var(--radius-sm); width: 55%;"></div>
+                                </div>
+                                <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">55%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Getting Started Section -->
+        <section id="getting-started" class="section">
+            <div class="container">
+                <h2>Getting Started</h2>
+                <p class="section-subtitle">Quick setup and integration guide</p>
+
+                <div style="display: flex; flex-direction: column; gap: var(--space-32);">
+                    <div style="display: flex; gap: var(--space-24); align-items: flex-start;">
+                        <div style="width: 60px; height: 60px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); flex-shrink: 0;">1</div>
+                        <div style="flex: 1;">
+                            <h3 style="color: var(--color-primary); margin-bottom: var(--space-12);">Sign Up & API Key</h3>
+                            <p>Create your Butter Labs account and obtain your API key</p>
+                            <div style="background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-16); margin-top: var(--space-16);">
+                                <code>curl -X POST https://api.butterlabs.ai/v1/auth/register</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: var(--space-24); align-items: flex-start;">
+                        <div style="width: 60px; height: 60px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); flex-shrink: 0;">2</div>
+                        <div style="flex: 1;">
+                            <h3 style="color: var(--color-primary); margin-bottom: var(--space-12);">Install SDK</h3>
+                            <p>Choose your preferred programming language and install our SDK</p>
+                            <div style="background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-16); margin-top: var(--space-16);">
+                                <code>npm install @butterlabs/ai-sdk</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: var(--space-24); align-items: flex-start;">
+                        <div style="width: 60px; height: 60px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); flex-shrink: 0;">3</div>
+                        <div style="flex: 1;">
+                            <h3 style="color: var(--color-primary); margin-bottom: var(--space-12);">Configure & Test</h3>
+                            <p>Initialize the client and run your first accent recognition test</p>
+                            <div style="background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-16); margin-top: var(--space-16);">
+                                <code>const client = new ButterLabs({<br>&nbsp;&nbsp;apiKey: 'your-api-key'<br>});<br><br>const result = await client.speech.analyze(audioData);</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Butter Labs</h3>
+                    <p class="footer-tagline">Making every voice heard and valued</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="#demo">Demo</a></li>
+                            <li><a href="#architecture">Architecture</a></li>
+                            <li><a href="#api">API Docs</a></li>
+                            <li><a href="#analytics">Analytics</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Press</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="#getting-started">Getting Started</a></li>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Status</a></li>
+                            <li><a href="#">Security</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Butter Labs. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">GDPR</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Butter Labs Demo Application JavaScript
+        class ButterLabsDemo {
+            constructor() {
+                this.currentSection = 'home';
+                this.isProcessing = false;
+                this.init();
+            }
+
+            init() {
+                this.setupNavigation();
+                this.setupDemo();
+                this.setupHeroButtons();
+                this.setupMobileNav();
+                this.setupScrollAnimations();
+                
+                // Initial setup
+                this.showSection('home');
+                setTimeout(() => {
+                    this.animateAccuracyBars();
+                }, 500);
+            }
+
+            // Navigation Management
+            setupNavigation() {
+                const navLinks = document.querySelectorAll('.nav-link');
+                
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const targetId = link.getAttribute('href').substring(1);
+                        this.navigateToSection(targetId);
+                    });
+                });
+            }
+
+            navigateToSection(sectionId) {
+                // Hide all sections
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                    section.style.display = 'none';
+                });
+
+                // Show target section
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                    targetSection.style.display = 'block';
+                    this.currentSection = sectionId;
+                }
+
+                // Update navigation
+                this.updateActiveNavLink(sectionId);
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Trigger section-specific animations
+                setTimeout(() => {
+                    this.triggerSectionAnimations(sectionId);
+                }, 100);
+            }
+
+            showSection(sectionId) {
+                this.navigateToSection(sectionId);
+            }
+
+            updateActiveNavLink(sectionId = null) {
+                const activeSection = sectionId || this.currentSection;
+                
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    const href = link.getAttribute('href');
+                    if (href === `#${activeSection}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            triggerSectionAnimations(sectionId) {
+                switch (sectionId) {
+                    case 'home':
+                        setTimeout(() => this.animateAccuracyBars(), 200);
+                        break;
+                    case 'demo':
+                        setTimeout(() => this.startWaveformAnimations(), 200);
+                        break;
+                }
+            }
+
+            // Demo Section Functionality
+            setupDemo() {
+                const accentSelect = document.getElementById('accentSelect');
+                const startDemoBtn = document.getElementById('startDemo');
+
+                if (startDemoBtn && accentSelect) {
+                    startDemoBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const selectedAccent = accentSelect.value;
+                        
+                        if (selectedAccent) {
+                            this.runDemo(selectedAccent);
+                        } else {
+                            alert('Please select an accent first');
+                        }
+                    });
+                }
+
+                // Start waveform animations
+                this.startWaveformAnimations();
+            }
+
+            async runDemo(accent) {
+                if (this.isProcessing) return;
+
+                this.isProcessing = true;
+                const startBtn = document.getElementById('startDemo');
+                const processingIndicator = document.querySelector('.processing-indicator');
+                const detectedAccent = document.getElementById('detectedAccent');
+                const confidenceScore = document.getElementById('confidenceScore');
+                const processingTime = document.getElementById('processingTime');
+
+                // Update button state
+                if (startBtn) {
+                    startBtn.textContent = 'Processing...';
+                    startBtn.disabled = true;
+                }
+
+                // Show processing indicator
+                if (processingIndicator) {
+                    processingIndicator.classList.add('active');
+                }
+
+                // Simulate processing delay
+                await this.sleep(2000 + Math.random() * 1000);
+
+                // Generate demo results
+                const results = this.generateDemoResults(accent);
+
+                // Update results
+                if (detectedAccent) detectedAccent.textContent = results.accent;
+                if (confidenceScore) confidenceScore.textContent = results.confidence;
+                if (processingTime) processingTime.textContent = results.processingTime;
+
+                // Update conversation example
+                this.updateConversationExample(accent);
+
+                // Hide processing indicator
+                if (processingIndicator) {
+                    processingIndicator.classList.remove('active');
+                }
+
+                // Reset button
+                if (startBtn) {
+                    startBtn.textContent = 'Start Recognition';
+                    startBtn.disabled = false;
+                }
+                
+                this.isProcessing = false;
+            }
+
+            generateDemoResults(accent) {
+                const accentNames = {
+                    'scottish': 'Scottish',
+                    'welsh': 'Welsh',
+                    'northern-irish': 'Northern Irish',
+                    'geordie': 'Geordie',
+                    'yorkshire': 'Yorkshire',
+                    'cornish': 'Cornish',
+                    'brummie': 'Brummie',
+                    'scouse': 'Scouse',
+                    'devon': 'Devon',
+                    'norfolk': 'Norfolk',
+                    'cockney': 'Cockney',
+                    'rp': 'Received Pronunciation',
+                    'west-country': 'West Country',
+                    'midlands': 'Midlands'
+                };
+
+                return {
+                    accent: accentNames[accent] || 'Unknown',
+                    confidence: (95 + Math.random() * 4).toFixed(1) + '%',
+                    processingTime: (80 + Math.random() * 40).toFixed(0) + 'ms'
+                };
+            }
+
+            updateConversationExample(accent) {
+                const messages = document.getElementById('conversationMessages');
+                if (!messages) return;
+
+                const examples = {
+                    'scottish': {
+                        user: 'Och, I cannae get intae my account',
+                        userNote: '(Scottish accent detected)',
+                        ai: 'I understand you\'re having trouble accessing your account. Let me help you with that right away.',
+                        aiNote: '(Response adapted for Scottish dialect patterns)'
+                    },
+                    'geordie': {
+                        user: 'Howay man, me account\'s not working',
+                        userNote: '(Geordie accent detected)',
+                        ai: 'I can see you\'re having issues with your account. Let me sort that out for you.',
+                        aiNote: '(Response adapted for Geordie dialect patterns)'
+                    },
+                    'welsh': {
+                        user: 'Right then, my account isn\'t working properly',
+                        userNote: '(Welsh accent detected)',
+                        ai: 'I understand there\'s a problem with your account. I\'ll help you resolve this straight away.',
+                        aiNote: '(Response adapted for Welsh dialect patterns)'
+                    }
+                };
+
+                const example = examples[accent] || {
+                    user: 'Hello, I need help with my account',
+                    userNote: `(${accent.replace('-', ' ')} accent detected)`,
+                    ai: 'Hello! I\'d be happy to help you with your account. Can you please provide your account number?',
+                    aiNote: `(Response adapted for ${accent.replace('-', ' ')} accent patterns)`
+                };
+
+                messages.innerHTML = `
+                    <div class="message user">
+                        <span class="message-text">${example.user}</span>
+                        <span class="message-accent">${example.userNote}</span>
+                    </div>
+                    <div class="message ai">
+                        <span class="message-text">${example.ai}</span>
+                        <span class="message-note">${example.aiNote}</span>
+                    </div>
+                `;
+            }
+
+            startWaveformAnimations() {
+                const waveBars = document.querySelectorAll('.wave-bar');
+                
+                if (this.waveformInterval) {
+                    clearInterval(this.waveformInterval);
+                }
+                
+                this.waveformInterval = setInterval(() => {
+                    waveBars.forEach((bar, index) => {
+                        const time = Date.now() / 1000;
+                        const frequency = 0.5 + (index % 3) * 0.3;
+                        const amplitude = 30 + Math.sin(time * frequency + index * 0.5) * 25;
+                        const noise = Math.random() * 15;
+                        
+                        bar.style.height = Math.max(8, amplitude + noise) + '%';
+                    });
+                }, 200);
+            }
+
+            // Accuracy Bar Animations
+            animateAccuracyBars() {
+                const accuracyFills = document.querySelectorAll('.accuracy-fill');
+                
+                // Reset first
+                accuracyFills.forEach(fill => {
+                    fill.style.width = '0%';
+                });
+                
+                // Then animate
+                setTimeout(() => {
+                    accuracyFills.forEach((fill, index) => {
+                        setTimeout(() => {
+                            if (fill.classList.contains('butter-labs')) {
+                                fill.style.width = '98%';
+                            } else if (fill.classList.contains('competitor')) {
+                                fill.style.width = '76%';
+                            }
+                        }, index * 500);
+                    });
+                }, 200);
+            }
+
+            // Hero Button Handlers
+            setupHeroButtons() {
+                const tryDemoBtn = document.getElementById('tryDemoBtn');
+                const learnMoreBtn = document.getElementById('learnMoreBtn');
+
+                if (tryDemoBtn) {
+                    tryDemoBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.navigateToSection('demo');
+                    });
+                }
+
+                if (learnMoreBtn) {
+                    learnMoreBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.navigateToSection('architecture');
+                    });
+                }
+            }
+
+            // Mobile Navigation
+            setupMobileNav() {
+                const navToggle = document.getElementById('navToggle');
+                const navLinks = document.querySelector('.nav-links');
+
+                if (navToggle && navLinks) {
+                    navToggle.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        navLinks.classList.toggle('show');
+                    });
+
+                    // Close mobile nav when clicking on a link
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.addEventListener('click', () => {
+                            if (navLinks) {
+                                navLinks.classList.remove('show');
+                            }
+                        });
+                    });
+
+                    // Close mobile nav when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                            navLinks.classList.remove('show');
+                        }
+                    });
+                }
+            }
+
+            // Scroll-triggered animations
+            setupScrollAnimations() {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-in');
+                        }
+                    });
+                }, observerOptions);
+
+                // Observe all cards and major elements
+                document.querySelectorAll('.feature-card').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+
+            // Utility Functions
+            sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const app = new ButterLabsDemo();
+            
+            // Make app globally available for debugging
+            window.ButterLabsApp = app;
+        });
+    </script>
+</body>
+</html>
