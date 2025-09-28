@@ -1,1822 +1,1535 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butter Labs - Accent-Aware Conversational AI</title>
+    <title>Butter Labs - Cut Contact Center Costs by 40%</title>
     <style>
-:root {
-  /* Butter Labs Color Palette */
-  --color-butter-yellow: #FCDC7D;
-  --color-logo-brown: #4B2E14;
-  --color-dark-chocolate: #3C2415;
-  --color-navy-blue: #1F2A44;
-  --color-accent-blue: #3B5A8A;
-  --color-light-blue: #5C7BAF;
-  --color-cream-bg: #FFF9F0;
-  --color-surface-cream: #FFF5E6;
-
-  /* Additional supporting colors */
-  --color-white: rgba(255, 255, 255, 1);
-  --color-black: rgba(0, 0, 0, 1);
-  --color-gray-200: rgba(245, 245, 245, 1);
-  --color-gray-300: rgba(167, 169, 169, 1);
-  --color-gray-400: rgba(119, 124, 124, 1);
-  --color-red-400: rgba(255, 84, 89, 1);
-  --color-red-500: rgba(192, 21, 47, 1);
-  --color-orange-400: rgba(230, 129, 97, 1);
-  --color-orange-500: rgba(168, 75, 47, 1);
-
-  /* RGB versions for opacity control */
-  --color-butter-yellow-rgb: 252, 220, 125;
-  --color-logo-brown-rgb: 75, 46, 20;
-  --color-dark-chocolate-rgb: 60, 36, 21;
-  --color-navy-blue-rgb: 31, 42, 68;
-  --color-accent-blue-rgb: 59, 90, 138;
-  --color-cream-bg-rgb: 255, 249, 240;
-
-  /* Background color tokens (Light Mode) */
-  --color-bg-1: rgba(252, 220, 125, 0.12); /* Light butter */
-  --color-bg-2: rgba(75, 46, 20, 0.08); /* Light brown */
-  --color-bg-3: rgba(59, 90, 138, 0.08); /* Light accent blue */
-  --color-bg-4: rgba(239, 68, 68, 0.08); /* Light red */
-  --color-bg-5: rgba(147, 51, 234, 0.08); /* Light purple */
-  --color-bg-6: rgba(249, 115, 22, 0.08); /* Light orange */
-  --color-bg-7: rgba(236, 72, 153, 0.08); /* Light pink */
-  --color-bg-8: rgba(6, 182, 212, 0.08); /* Light cyan */
-
-  /* Semantic Color Tokens (Light Mode) */
-  --color-background: var(--color-cream-bg);
-  --color-surface: var(--color-surface-cream);
-  --color-text: var(--color-dark-chocolate);
-  --color-text-secondary: var(--color-logo-brown);
-  --color-primary: var(--color-butter-yellow);
-  --color-primary-hover: #F5D05A;
-  --color-primary-active: #E8C547;
-  --color-secondary: rgba(var(--color-logo-brown-rgb), 0.12);
-  --color-secondary-hover: rgba(var(--color-logo-brown-rgb), 0.2);
-  --color-secondary-active: rgba(var(--color-logo-brown-rgb), 0.25);
-  --color-border: rgba(var(--color-logo-brown-rgb), 0.2);
-  --color-btn-primary-text: var(--color-dark-chocolate);
-  --color-card-border: rgba(var(--color-logo-brown-rgb), 0.12);
-  --color-card-border-inner: rgba(var(--color-logo-brown-rgb), 0.12);
-  --color-error: var(--color-red-500);
-  --color-success: var(--color-accent-blue);
-  --color-warning: var(--color-orange-500);
-  --color-info: var(--color-logo-brown);
-  --color-focus-ring: rgba(var(--color-butter-yellow-rgb), 0.4);
-  --color-select-caret: rgba(var(--color-dark-chocolate-rgb), 0.8);
-
-  /* Common style patterns */
-  --focus-ring: 0 0 0 3px var(--color-focus-ring);
-  --focus-outline: 2px solid var(--color-primary);
-  --status-bg-opacity: 0.15;
-  --status-border-opacity: 0.25;
-  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233C2415' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23FFF9F0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-
-  /* RGB versions for opacity control */
-  --color-success-rgb: var(--color-accent-blue-rgb);
-  --color-error-rgb: 192, 21, 47;
-  --color-warning-rgb: 168, 75, 47;
-  --color-info-rgb: var(--color-logo-brown-rgb);
-
-  /* Typography */
-  --font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-size-xs: 11px;
-  --font-size-sm: 12px;
-  --font-size-base: 14px;
-  --font-size-md: 14px;
-  --font-size-lg: 16px;
-  --font-size-xl: 18px;
-  --font-size-2xl: 20px;
-  --font-size-3xl: 24px;
-  --font-size-4xl: 30px;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 550;
-  --font-weight-bold: 600;
-  --line-height-tight: 1.2;
-  --line-height-normal: 1.5;
-  --letter-spacing-tight: -0.01em;
-
-  /* Spacing */
-  --space-0: 0;
-  --space-1: 1px;
-  --space-2: 2px;
-  --space-4: 4px;
-  --space-6: 6px;
-  --space-8: 8px;
-  --space-10: 10px;
-  --space-12: 12px;
-  --space-16: 16px;
-  --space-20: 20px;
-  --space-24: 24px;
-  --space-32: 32px;
-
-  /* Border Radius */
-  --radius-sm: 6px;
-  --radius-base: 8px;
-  --radius-md: 10px;
-  --radius-lg: 12px;
-  --radius-full: 9999px;
-
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
-
-  /* Animation */
-  --duration-fast: 150ms;
-  --duration-normal: 250ms;
-  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* Layout */
-  --container-sm: 640px;
-  --container-md: 768px;
-  --container-lg: 1024px;
-  --container-xl: 1280px;
-}
-
-/* Dark mode colors */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg-1: rgba(252, 220, 125, 0.15); /* Dark butter */
-    --color-bg-2: rgba(75, 46, 20, 0.15); /* Dark brown */
-    --color-bg-3: rgba(59, 90, 138, 0.15); /* Dark accent blue */
-    --color-bg-4: rgba(185, 28, 28, 0.15); /* Dark red */
-    --color-bg-5: rgba(107, 33, 168, 0.15); /* Dark purple */
-    --color-bg-6: rgba(194, 65, 12, 0.15); /* Dark orange */
-    --color-bg-7: rgba(190, 24, 93, 0.15); /* Dark pink */
-    --color-bg-8: rgba(8, 145, 178, 0.15); /* Dark cyan */
-    
-    --color-background: var(--color-dark-chocolate);
-    --color-surface: var(--color-navy-blue);
-    --color-text: var(--color-cream-bg);
-    --color-text-secondary: rgba(var(--color-cream-bg-rgb), 0.7);
-    --color-primary: var(--color-butter-yellow);
-    --color-primary-hover: #F5D05A;
-    --color-primary-active: #E8C547;
-    --color-secondary: rgba(var(--color-butter-yellow-rgb), 0.15);
-    --color-secondary-hover: rgba(var(--color-butter-yellow-rgb), 0.25);
-    --color-secondary-active: rgba(var(--color-butter-yellow-rgb), 0.3);
-    --color-border: rgba(var(--color-butter-yellow-rgb), 0.3);
-    --color-error: var(--color-red-400);
-    --color-success: var(--color-light-blue);
-    --color-warning: var(--color-orange-400);
-    --color-info: var(--color-cream-bg);
-    --color-focus-ring: rgba(var(--color-butter-yellow-rgb), 0.4);
-    --color-btn-primary-text: var(--color-dark-chocolate);
-    --color-card-border: rgba(var(--color-butter-yellow-rgb), 0.2);
-    --color-card-border-inner: rgba(var(--color-butter-yellow-rgb), 0.15);
-    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-    --color-select-caret: rgba(var(--color-cream-bg-rgb), 0.8);
-
-    --color-success-rgb: var(--color-light-blue);
-    --color-error-rgb: var(--color-red-400);
-    --color-warning-rgb: var(--color-orange-400);
-    --color-info-rgb: var(--color-cream-bg-rgb);
-  }
-}
-
-/* Base styles */
-html {
-  font-size: var(--font-size-base);
-  font-family: var(--font-family-base);
-  line-height: var(--line-height-normal);
-  color: var(--color-text);
-  background-color: var(--color-background);
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-*, *::before, *::after {
-  box-sizing: inherit;
-}
-
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  color: var(--color-text);
-  letter-spacing: var(--letter-spacing-tight);
-}
-
-h1 { font-size: var(--font-size-4xl); }
-h2 { font-size: var(--font-size-3xl); }
-h3 { font-size: var(--font-size-2xl); }
-h4 { font-size: var(--font-size-xl); }
-h5 { font-size: var(--font-size-lg); }
-h6 { font-size: var(--font-size-md); }
-
-p {
-  margin: 0 0 var(--space-16) 0;
-}
-
-a {
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: color var(--duration-fast) var(--ease-standard);
-}
-
-a:hover {
-  color: var(--color-primary-hover);
-}
-
-code, pre {
-  font-family: var(--font-family-mono);
-  font-size: calc(var(--font-size-base) * 0.95);
-  background-color: var(--color-secondary);
-  border-radius: var(--radius-sm);
-}
-
-code {
-  padding: var(--space-1) var(--space-4);
-}
-
-pre {
-  padding: var(--space-16);
-  margin: var(--space-16) 0;
-  overflow: auto;
-  border: 1px solid var(--color-border);
-}
-
-pre code {
-  background: none;
-  padding: 0;
-}
-
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-8) var(--space-16);
-  border-radius: var(--radius-base);
-  font-size: var(--font-size-base);
-  font-weight: 500;
-  line-height: 1.5;
-  cursor: pointer;
-  transition: all var(--duration-normal) var(--ease-standard);
-  border: none;
-  text-decoration: none;
-  position: relative;
-}
-
-.btn:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-}
-
-.btn--primary {
-  background: var(--color-primary);
-  color: var(--color-btn-primary-text);
-}
-
-.btn--primary:hover {
-  background: var(--color-primary-hover);
-}
-
-.btn--primary:active {
-  background: var(--color-primary-active);
-}
-
-.btn--secondary {
-  background: var(--color-secondary);
-  color: var(--color-text);
-}
-
-.btn--secondary:hover {
-  background: var(--color-secondary-hover);
-}
-
-.btn--secondary:active {
-  background: var(--color-secondary-active);
-}
-
-.btn--outline {
-  background: transparent;
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
-}
-
-.btn--outline:hover {
-  background: var(--color-secondary);
-}
-
-.btn--sm {
-  padding: var(--space-4) var(--space-12);
-  font-size: var(--font-size-sm);
-  border-radius: var(--radius-sm);
-}
-
-.btn--lg {
-  padding: var(--space-10) var(--space-20);
-  font-size: var(--font-size-lg);
-  border-radius: var(--radius-md);
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Form elements */
-.form-control {
-  display: block;
-  width: 100%;
-  padding: var(--space-8) var(--space-12);
-  font-size: var(--font-size-md);
-  line-height: 1.5;
-  color: var(--color-text);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-base);
-  transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
-}
-
-select.form-control {
-  padding: var(--space-8) var(--space-12);
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: var(--select-caret-light);
-  background-repeat: no-repeat;
-  background-position: right var(--space-12) center;
-  background-size: 16px;
-  padding-right: var(--space-32);
-}
-
-@media (prefers-color-scheme: dark) {
-  select.form-control {
-    background-image: var(--select-caret-dark);
-  }
-}
-
-.form-control:focus {
-  border-color: var(--color-primary);
-  outline: var(--focus-outline);
-}
-
-.form-label {
-  display: block;
-  margin-bottom: var(--space-8);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-sm);
-}
-
-.form-group {
-  margin-bottom: var(--space-16);
-}
-
-/* Container layout */
-.container {
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: var(--space-16);
-  padding-left: var(--space-16);
-}
-
-@media (min-width: 640px) { .container { max-width: var(--container-sm); } }
-@media (min-width: 768px) { .container { max-width: var(--container-md); } }
-@media (min-width: 1024px) { .container { max-width: var(--container-lg); } }
-@media (min-width: 1280px) { .container { max-width: var(--container-xl); } }
-
-/* Navigation */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(var(--color-dark-chocolate-rgb), 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--color-border);
-  z-index: 1000;
-  padding: var(--space-12) 0;
-}
-
-.navbar .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.nav-brand {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-8);
-}
-
-.nav-brand h2 {
-  color: var(--color-primary);
-  font-size: var(--font-size-2xl);
-  margin: 0;
-}
-
-.nav-tagline {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  font-weight: var(--font-weight-normal);
-}
-
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: var(--space-24);
-  margin: 0;
-}
-
-.nav-link {
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  font-weight: var(--font-weight-medium);
-  transition: color var(--duration-fast) var(--ease-standard);
-  padding: var(--space-8) var(--space-12);
-  border-radius: var(--radius-base);
-}
-
-.nav-link:hover, .nav-link.active {
-  color: var(--color-primary);
-}
-
-.nav-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--color-text);
-  font-size: var(--font-size-xl);
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .nav-links { display: none; }
-  .nav-toggle { display: block; }
-}
-
-/* Section Management */
-.section {
-  display: none;
-  min-height: 100vh;
-  padding-top: 80px;
-}
-
-.section.active {
-  display: block;
-}
-
-.section-subtitle {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-  text-align: center;
-  margin-bottom: var(--space-32);
-}
-
-/* Hero Section */
-.hero {
-  background: linear-gradient(135deg, var(--color-bg-1), var(--color-bg-5));
-  padding: var(--space-32) 0;
-  text-align: center;
-}
-
-.hero-content {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.hero-title {
-  font-size: clamp(var(--font-size-4xl), 8vw, 4rem);
-  margin-bottom: var(--space-16);
-  background: linear-gradient(135deg, var(--color-primary), var(--color-logo-brown));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-subtitle {
-  font-size: var(--font-size-xl);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-16);
-  font-weight: var(--font-weight-medium);
-}
-
-.hero-description {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-32);
-  font-style: italic;
-}
-
-.hero-stats {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-32);
-  margin-bottom: var(--space-32);
-  flex-wrap: wrap;
-}
-
-.stat {
-  text-align: center;
-}
-
-.stat-number {
-  display: block;
-  font-size: var(--font-size-4xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  line-height: 1;
-}
-
-.stat-label {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.hero-actions {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-16);
-  flex-wrap: wrap;
-}
-
-/* Features Section */
-.features-section {
-  padding: var(--space-32) 0;
-}
-
-.features-section h2 {
-  text-align: center;
-  margin-bottom: var(--space-32);
-}
-
-.comparison-highlight {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-32);
-  margin-bottom: var(--space-32);
-  flex-wrap: wrap;
-}
-
-.comparison-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-24);
-  text-align: center;
-  min-width: 200px;
-}
-
-.comparison-card h3 {
-  margin-bottom: var(--space-16);
-}
-
-.accuracy-bar {
-  width: 100%;
-  height: 24px;
-  background: var(--color-secondary);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-  margin-bottom: var(--space-12);
-}
-
-.accuracy-fill {
-  height: 100%;
-  border-radius: var(--radius-full);
-  transition: width 2s var(--ease-standard);
-}
-
-.accuracy-fill.butter-labs {
-  background: linear-gradient(90deg, var(--color-primary), var(--color-logo-brown));
-  width: 98%;
-}
-
-.accuracy-fill.competitor {
-  background: linear-gradient(90deg, var(--color-warning), var(--color-orange-400));
-  width: 76%;
-}
-
-.accuracy-label {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-}
-
-.vs {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-secondary);
-}
-
-.target-markets {
-  margin-bottom: var(--space-32);
-  text-align: center;
-}
-
-.target-markets h3 {
-  margin-bottom: var(--space-24);
-}
-
-.market-grid {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-16);
-  flex-wrap: wrap;
-}
-
-.market-card {
-  background: var(--color-bg-3);
-  color: var(--color-text);
-  padding: var(--space-12) var(--space-20);
-  border-radius: var(--radius-full);
-  font-weight: var(--font-weight-medium);
-  border: 1px solid rgba(var(--color-accent-blue-rgb), 0.2);
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-24);
-}
-
-.feature-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-24);
-  text-align: center;
-  transition: all var(--duration-normal) var(--ease-standard);
-}
-
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-.feature-icon {
-  font-size: 2rem;
-  margin-bottom: var(--space-16);
-}
-
-.feature-card h3 {
-  margin-bottom: var(--space-12);
-  color: var(--color-primary);
-}
-
-/* Demo Section */
-.demo-interface {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-32);
-  margin-bottom: var(--space-32);
-}
-
-.demo-controls {
-  display: flex;
-  gap: var(--space-16);
-  margin-bottom: var(--space-32);
-  align-items: flex-end;
-  flex-wrap: wrap;
-}
-
-.demo-controls .form-group {
-  flex: 1;
-  min-width: 200px;
-}
-
-.demo-visualization {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: var(--space-24);
-  align-items: center;
-  margin-bottom: var(--space-32);
-}
-
-.waveform-container {
-  text-align: center;
-}
-
-.waveform-label {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-12);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.waveform {
-  display: flex;
-  gap: var(--space-4);
-  justify-content: center;
-  align-items: flex-end;
-  height: 80px;
-  padding: var(--space-16);
-  background: var(--color-bg-8);
-  border-radius: var(--radius-base);
-}
-
-.wave-bar {
-  width: 4px;
-  background: var(--color-primary);
-  border-radius: var(--radius-sm);
-  transition: height var(--duration-normal) var(--ease-standard);
-  min-height: 8px;
-}
-
-.processing-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-8);
-  opacity: 0;
-  transition: opacity var(--duration-normal);
-}
-
-.processing-indicator.active {
-  opacity: 1;
-}
-
-.processing-spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--color-secondary);
-  border-top: 3px solid var(--color-primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.demo-results {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-24);
-}
-
-.result-card {
-  background: var(--color-bg-1);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-base);
-  padding: var(--space-20);
-}
-
-.result-card h3 {
-  margin-bottom: var(--space-16);
-  color: var(--color-primary);
-}
-
-.result-item {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: var(--space-8);
-}
-
-.result-label {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-}
-
-.result-value {
-  font-weight: var(--font-weight-semibold);
-}
-
-.conversation-example {
-  background: var(--color-bg-2);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-base);
-  padding: var(--space-20);
-}
-
-.conversation-example h3 {
-  margin-bottom: var(--space-16);
-  color: var(--color-primary);
-}
-
-.conversation-messages {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-12);
-}
-
-.message {
-  padding: var(--space-12);
-  border-radius: var(--radius-base);
-}
-
-.message.user {
-  background: var(--color-bg-4);
-  align-self: flex-end;
-  max-width: 80%;
-}
-
-.message.ai {
-  background: var(--color-bg-3);
-  align-self: flex-start;
-  max-width: 80%;
-}
-
-.message-text {
-  display: block;
-  margin-bottom: var(--space-4);
-}
-
-.message-accent, .message-note {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-  font-style: italic;
-}
-
-/* Footer */
-.footer {
-  background: var(--color-dark-chocolate);
-  color: var(--color-cream-bg);
-  padding: var(--space-32) 0 var(--space-16);
-  margin-top: var(--space-32);
-}
-
-.footer-content {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: var(--space-32);
-  margin-bottom: var(--space-32);
-}
-
-.footer-brand h3 {
-  color: var(--color-butter-yellow);
-  margin-bottom: var(--space-8);
-}
-
-.footer-brand p {
-  color: var(--color-cream-bg);
-  margin-bottom: var(--space-4);
-}
-
-.footer-tagline {
-  font-style: italic;
-}
-
-.footer-links {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-24);
-}
-
-.footer-section h4 {
-  color: var(--color-butter-yellow);
-  margin-bottom: var(--space-16);
-}
-
-.footer-section ul {
-  list-style: none;
-}
-
-.footer-section li {
-  margin-bottom: var(--space-8);
-}
-
-.footer-section a {
-  color: var(--color-cream-bg);
-  text-decoration: none;
-  transition: color var(--duration-fast);
-}
-
-.footer-section a:hover {
-  color: var(--color-butter-yellow);
-}
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: var(--space-16);
-  border-top: 1px solid rgba(var(--color-butter-yellow-rgb), 0.3);
-  flex-wrap: wrap;
-  gap: var(--space-16);
-}
-
-.footer-legal {
-  display: flex;
-  gap: var(--space-16);
-}
-
-.footer-legal a {
-  color: var(--color-cream-bg);
-  text-decoration: none;
-  font-size: var(--font-size-sm);
-}
-
-.footer-legal a:hover {
-  color: var(--color-butter-yellow);
-}
-
-@media (max-width: 768px) {
-  .demo-visualization {
-    grid-template-columns: 1fr;
-    gap: var(--space-16);
-  }
-  
-  .demo-results {
-    grid-template-columns: 1fr;
-  }
-  
-  .footer-content {
-    grid-template-columns: 1fr;
-  }
-  
-  .footer-links {
-    grid-template-columns: 1fr;
-  }
-  
-  .footer-bottom {
-    flex-direction: column;
-    text-align: center;
-  }
-}
+        :root {
+            /* Butter Labs Brand Colors */
+            --primary-yellow: #FCDC7D;
+            --primary-brown: #4B2E14;
+            
+            /* Extended Color Palette */
+            --light-yellow: #FEE8A3;
+            --cream: #FEF7E7;
+            --medium-brown: #8B5A2B;
+            --dark-gray: #2D2D2D;
+            --light-gray: #F8F9FA;
+            --white: #FFFFFF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --blue: #3B82F6;
+            
+            /* Semantic Colors */
+            --bg-primary: var(--cream);
+            --bg-secondary: var(--white);
+            --bg-accent: var(--primary-yellow);
+            --text-primary: var(--primary-brown);
+            --text-secondary: var(--medium-brown);
+            --text-light: var(--dark-gray);
+            --border: rgba(75, 46, 20, 0.1);
+            --shadow: rgba(75, 46, 20, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            box-shadow: 0 2px 10px var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .nav__brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav__logo {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-yellow);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .nav__brand h2 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav__tagline {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+
+        .nav__menu {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav__link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav__link:hover {
+            color: var(--medium-brown);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn--primary {
+            background: var(--primary-yellow);
+            color: var(--primary-brown);
+        }
+
+        .btn--primary:hover {
+            background: var(--light-yellow);
+            transform: translateY(-2px);
+        }
+
+        .btn--secondary {
+            background: transparent;
+            color: var(--primary-brown);
+            border: 2px solid var(--primary-brown);
+        }
+
+        .btn--secondary:hover {
+            background: var(--primary-brown);
+            color: var(--white);
+        }
+
+        .btn--accent {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn--accent:hover {
+            background: #059669;
+        }
+
+        .btn--lg {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        .btn--full-width {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 4rem;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--light-yellow) 100%);
+        }
+
+        .hero__content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero__title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .hero__subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .hero__stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat__number {
+            display: block;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-brown);
+        }
+
+        .stat__label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .hero__ctas {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .hero__value-props {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .value-prop {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px var(--shadow);
+            text-align: left;
+        }
+
+        .value-prop h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .value-prop p {
+            color: var(--text-secondary);
+        }
+
+        /* Section Headers */
+        .section__header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section__header h2 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .section__header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Demo Section */
+        .demo {
+            padding: 4rem 0;
+            background: var(--bg-secondary);
+        }
+
+        .demo__container {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px var(--shadow);
+        }
+
+        .demo__controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .demo__selector {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .demo__selector label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-yellow);
+        }
+
+        .voice-demo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .voice-demo__note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .conversation {
+            background: var(--light-gray);
+            border-radius: 12px;
+            padding: 2rem;
+            min-height: 400px;
+            margin-bottom: 2rem;
+        }
+
+        .conversation__placeholder {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 2rem;
+        }
+
+        .conversation__messages {
+            display: none;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .message--customer {
+            justify-content: flex-end;
+        }
+
+        .message--ai {
+            justify-content: flex-start;
+        }
+
+        .message__bubble {
+            padding: 1rem;
+            border-radius: 12px;
+            max-width: 70%;
+        }
+
+        .message--customer .message__bubble {
+            background: var(--primary-yellow);
+            color: var(--primary-brown);
+        }
+
+        .message--ai .message__bubble {
+            background: var(--white);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .demo__results {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .results__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .result__item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 8px;
+        }
+
+        .result__label {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .result__value {
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        /* ROI Calculator */
+        .roi {
+            padding: 4rem 0;
+            background: var(--bg-primary);
+        }
+
+        .roi__calculator {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px var(--shadow);
+        }
+
+        .roi__inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .roi__input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .roi__input-group label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .roi__results h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .savings__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .savings__item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--cream);
+            border-radius: 12px;
+        }
+
+        .savings__label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .savings__value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .break-even-info {
+            text-align: center;
+            padding: 2rem;
+            background: var(--light-yellow);
+            border-radius: 12px;
+        }
+
+        .break-even-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        .break-even-info span {
+            font-weight: 700;
+            color: var(--primary-brown);
+        }
+
+        /* Architecture Section */
+        .architecture {
+            padding: 4rem 0;
+            background: var(--bg-secondary);
+        }
+
+        .architecture__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .architecture__card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .architecture__card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card__icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .architecture__card h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .architecture__card p {
+            color: var(--text-secondary);
+        }
+
+        /* Success Stories */
+        .success {
+            padding: 4rem 0;
+            background: var(--bg-primary);
+        }
+
+        .success__stories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .story__card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .story__header {
+            margin-bottom: 1rem;
+        }
+
+        .story__header h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .story__industry {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background: var(--light-yellow);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .story__quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .story__metrics {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric__value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .metric__label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Getting Started */
+        .getting-started {
+            padding: 4rem 0;
+            background: var(--bg-secondary);
+        }
+
+        .process__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .process__step {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .step__number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-yellow);
+            color: var(--primary-brown);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+
+        .step__content h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .step__content p {
+            color: var(--text-secondary);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 4rem 0;
+            background: var(--bg-primary);
+        }
+
+        .contact__form {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group--full {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .form-message--success {
+            background: #D1FAE5;
+            color: #065F46;
+            border: 1px solid #10B981;
+        }
+
+        .form-message--error {
+            background: #FEE2E2;
+            color: #991B1B;
+            border: 1px solid #EF4444;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-brown);
+            color: var(--white);
+            padding: 3rem 0 2rem;
+        }
+
+        .footer__content {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer__brand h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer__brand p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .footer__links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .footer__column h4 {
+            margin-bottom: 1rem;
+        }
+
+        .footer__column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer__column a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer__column a:hover {
+            color: var(--white);
+        }
+
+        .footer__bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero__title {
+                font-size: 2.5rem;
+            }
+            
+            .hero__subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero__stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero__ctas {
+                flex-direction: column;
+            }
+            
+            .nav__menu {
+                display: none;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .story__metrics {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Technical Demo Styles */
+        .accent-detection {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: center;
+            background: var(--light-gray);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .accent-info h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .accent-info p {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .accent-info span {
+            font-weight: 700;
+            color: var(--primary-brown);
+        }
+
+        .waveform-container {
+            width: 200px;
+            height: 100px;
+        }
+
+        .waveform {
+            display: flex;
+            align-items: end;
+            gap: 4px;
+            height: 100%;
+        }
+
+        .waveform__bar {
+            background: var(--primary-yellow);
+            width: 16px;
+            border-radius: 2px;
+            animation: wave 1.5s ease-in-out infinite;
+        }
+
+        .waveform__bar:nth-child(1) { animation-delay: 0s; height: 20%; }
+        .waveform__bar:nth-child(2) { animation-delay: 0.1s; height: 60%; }
+        .waveform__bar:nth-child(3) { animation-delay: 0.2s; height: 40%; }
+        .waveform__bar:nth-child(4) { animation-delay: 0.3s; height: 80%; }
+        .waveform__bar:nth-child(5) { animation-delay: 0.4s; height: 100%; }
+        .waveform__bar:nth-child(6) { animation-delay: 0.5s; height: 70%; }
+        .waveform__bar:nth-child(7) { animation-delay: 0.6s; height: 30%; }
+        .waveform__bar:nth-child(8) { animation-delay: 0.7s; height: 90%; }
+        .waveform__bar:nth-child(9) { animation-delay: 0.8s; height: 50%; }
+        .waveform__bar:nth-child(10) { animation-delay: 0.9s; height: 25%; }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1); }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar">
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <div class="nav__logo">🧈</div>
+                <div>
+                    <h2>Butter Labs</h2>
+                    <span class="nav__tagline">Intelligent conversations, intelligent savings</span>
+                </div>
+            </div>
+            <div class="nav__menu">
+                <a href="#hero" class="nav__link">Home</a>
+                <a href="#demo" class="nav__link">Demo</a>
+                <a href="#roi" class="nav__link">ROI Calculator</a>
+                <a href="#architecture" class="nav__link">Platform</a>
+                <a href="#success" class="nav__link">Success Stories</a>
+                <a href="#contact" class="nav__link">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
         <div class="container">
-            <div class="nav-brand">
-                <h2>Butter Labs</h2>
+            <div class="hero__content">
+                <h1 class="hero__title">Cut Contact Center Costs by 40% While Delivering Superior Customer Experience</h1>
+                <p class="hero__subtitle">Butter Labs handles complex conversations automatically - reducing staffing costs while improving satisfaction</p>
+                
+                <div class="hero__stats">
+                    <div class="stat">
+                        <span class="stat__number">40%</span>
+                        <span class="stat__label">Cost Reduction</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__number">95%</span>
+                        <span class="stat__label">Resolution Rate</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__number">24/7</span>
+                        <span class="stat__label">Availability</span>
+                    </div>
+                </div>
+
+                <div class="hero__ctas">
+                    <button class="btn btn--primary btn--lg" onclick="scrollToSection('roi')">Calculate Your Savings</button>
+                    <button class="btn btn--secondary btn--lg" onclick="scrollToSection('demo')">See Demo</button>
+                </div>
+
+                <div class="hero__value-props">
+                    <div class="value-prop">
+                        <h3>Reduce staffing costs dramatically</h3>
+                        <p>Handle peak volume without hiring additional agents</p>
+                    </div>
+                    <div class="value-prop">
+                        <h3>Resolve complex issues instantly</h3>
+                        <p>No more expensive escalations or callbacks</p>
+                    </div>
+                    <div class="value-prop">
+                        <h3>Improve customer satisfaction scores</h3>
+                        <p>24/7 intelligent support that customers love</p>
+                    </div>
+                    <div class="value-prop">
+                        <h3>Scale effortlessly</h3>
+                        <p>Handle unlimited volume with consistent quality</p>
+                    </div>
+                </div>
             </div>
-            <ul class="nav-links">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#demo" class="nav-link">Demo</a></li>
-                <li><a href="#architecture" class="nav-link">Architecture</a></li>
-                <li><a href="#flows" class="nav-link">User Flows</a></li>
-                <li><a href="#api" class="nav-link">API Docs</a></li>
-                <li><a href="#analytics" class="nav-link">Analytics</a></li>
-                <li><a href="#getting-started" class="nav-link">Get Started</a></li>
-            </ul>
-            <button class="nav-toggle" id="navToggle">☰</button>
         </div>
-    </nav>
+    </section>
 
-    <main>
-        <!-- Landing Page Section -->
-        <section id="home" class="section active">
-            <div class="hero">
-                <div class="container">
-                    <div class="hero-content">
-                        <h1 class="hero-title">Butter Labs</h1>
-                        <p class="hero-subtitle">The world's first accent-aware conversational AI</p>
-                        <p class="hero-description">To give every European voice and every voice in Europe and the UK its value to make them feel seen, included, heard</p>
+    <!-- Interactive Demo Section -->
+    <section id="demo" class="demo">
+        <div class="container">
+            <div class="section__header">
+                <h2>Experience Butter Labs in Action</h2>
+                <p>See how we resolve complex customer conversations in seconds</p>
+            </div>
+
+            <div class="demo__container">
+                <!-- Demo Controls -->
+                <div class="demo__controls">
+                    <div class="demo__selector">
+                        <label for="issueType">Select Issue Type:</label>
+                        <select id="issueType" class="form-control">
+                            <option value="billing">Billing Inquiry</option>
+                            <option value="technical">Technical Support</option>
+                            <option value="account">Account Changes</option>
+                            <option value="service">Service Issues</option>
+                            <option value="cancellation">Cancellation Requests</option>
+                        </select>
+                    </div>
+                    <button id="startDemo" class="btn btn--primary">Start Conversation</button>
+                    <div class="voice-demo">
+                        <button class="btn btn--accent" disabled>
+                            🎤 Try with Your Voice
+                        </button>
+                        <span class="voice-demo__note">Voice demo coming soon - contact us for live demonstration</span>
+                    </div>
+                </div>
+
+                <!-- Part A: Customer Conversation -->
+                <div class="demo__part" id="partA">
+                    <div class="conversation" id="conversation">
+                        <div class="conversation__messages" id="messages"></div>
+                        <div class="conversation__placeholder">
+                            Select an issue type and click "Start Conversation" to see Butter Labs in action
+                        </div>
+                    </div>
+
+                    <div class="demo__results" id="demoResults" style="display: none;">
+                        <h4>Demo Results</h4>
+                        <div class="results__grid">
+                            <div class="result__item">
+                                <span class="result__label">Resolution Time</span>
+                                <span class="result__value" id="resolutionTime">-</span>
+                            </div>
+                            <div class="result__item">
+                                <span class="result__label">Customer Satisfaction</span>
+                                <span class="result__value" id="satisfaction">-</span>
+                            </div>
+                            <div class="result__item">
+                                <span class="result__label">Agent Cost Saved</span>
+                                <span class="result__value" id="costSaved">-</span>
+                            </div>
+                        </div>
                         
-                        <div class="hero-stats">
-                            <div class="stat">
-                                <span class="stat-number">98%</span>
-                                <span class="stat-label">Accuracy</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">14</span>
-                                <span class="stat-label">Regional Accents</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">£30B</span>
-                                <span class="stat-label">Annual Savings</span>
-                            </div>
-                        </div>
-
-                        <div class="hero-actions">
-                            <button class="btn btn--primary btn--lg" id="tryDemoBtn">Try Interactive Demo</button>
-                            <button class="btn btn--outline btn--lg" id="learnMoreBtn">Learn More</button>
-                        </div>
+                        <button id="showTechnical" class="btn btn--accent" style="margin-top: 20px;">How did Butter Labs do this so well?</button>
                     </div>
                 </div>
-            </div>
 
-            <div class="features-section">
-                <div class="container">
-                    <h2>Why Butter Labs Outperforms Competition</h2>
-                    <div class="comparison-highlight">
-                        <div class="comparison-card">
-                            <h3>Butter Labs</h3>
-                            <div class="accuracy-bar">
-                                <div class="accuracy-fill butter-labs" data-accuracy="98"></div>
-                            </div>
-                            <span class="accuracy-label">98% Accuracy</span>
-                        </div>
-                        <div class="vs">VS</div>
-                        <div class="comparison-card">
-                            <h3>Competitors</h3>
-                            <div class="accuracy-bar">
-                                <div class="accuracy-fill competitor" data-accuracy="76"></div>
-                            </div>
-                            <span class="accuracy-label">76% Accuracy</span>
-                        </div>
-                    </div>
-
-                    <div class="target-markets">
-                        <h3>Trusted by Leading Industries</h3>
-                        <div class="market-grid">
-                            <div class="market-card">Utilities</div>
-                            <div class="market-card">Telecom</div>
-                            <div class="market-card">Healthcare</div>
-                            <div class="market-card">Financial Services</div>
-                            <div class="market-card">Public Sector</div>
-                        </div>
-                    </div>
-
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">🎯</div>
-                            <h3>Real-time Accent Recognition</h3>
-                            <p>Instantly identifies and adapts to 14 UK regional accents</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">🔒</div>
-                            <h3>Privacy-first Architecture</h3>
-                            <p>Enterprise-grade security with data protection compliance</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">⚡</div>
-                            <h3>Seamless Integration</h3>
-                            <p>Easy to implement with existing call center infrastructure</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">💰</div>
-                            <h3>Cost-effective Scaling</h3>
-                            <p>Handle 7 billion customer calls with significant cost savings</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Interactive Demo Section -->
-        <section id="demo" class="section">
-            <div class="container">
-                <h2>Interactive Demo</h2>
-                <p class="section-subtitle">Experience Butter Labs' accent recognition in action</p>
-
-                <div class="demo-interface">
-                    <div class="demo-controls">
-                        <div class="form-group">
-                            <label class="form-label">Select Accent:</label>
-                            <select class="form-control" id="accentSelect">
-                                <option value="">Choose an accent...</option>
-                                <option value="scottish">Scottish</option>
-                                <option value="welsh">Welsh</option>
-                                <option value="northern-irish">Northern Irish</option>
-                                <option value="geordie">Geordie</option>
-                                <option value="yorkshire">Yorkshire</option>
-                                <option value="cornish">Cornish</option>
-                                <option value="brummie">Brummie</option>
-                                <option value="scouse">Scouse</option>
-                                <option value="devon">Devon</option>
-                                <option value="norfolk">Norfolk</option>
-                                <option value="cockney">Cockney</option>
-                                <option value="rp">Received Pronunciation</option>
-                                <option value="west-country">West Country</option>
-                                <option value="midlands">Midlands</option>
-                            </select>
-                        </div>
-                        <button class="btn btn--primary" id="startDemo">Start Recognition</button>
-                    </div>
-
-                    <div class="demo-visualization">
-                        <div class="waveform-container">
-                            <div class="waveform-label">Audio Input</div>
-                            <div class="waveform" id="inputWaveform">
-                                <div class="wave-bar" style="height: 20%"></div>
-                                <div class="wave-bar" style="height: 45%"></div>
-                                <div class="wave-bar" style="height: 80%"></div>
-                                <div class="wave-bar" style="height: 60%"></div>
-                                <div class="wave-bar" style="height: 90%"></div>
-                                <div class="wave-bar" style="height: 30%"></div>
-                                <div class="wave-bar" style="height: 70%"></div>
-                                <div class="wave-bar" style="height: 40%"></div>
-                                <div class="wave-bar" style="height: 85%"></div>
-                                <div class="wave-bar" style="height: 25%"></div>
-                            </div>
-                        </div>
-
-                        <div class="processing-indicator">
-                            <div class="processing-spinner"></div>
-                            <span>Processing...</span>
-                        </div>
-
-                        <div class="waveform-container">
-                            <div class="waveform-label">Processed Output</div>
-                            <div class="waveform" id="outputWaveform">
-                                <div class="wave-bar" style="height: 25%"></div>
-                                <div class="wave-bar" style="height: 50%"></div>
-                                <div class="wave-bar" style="height: 75%"></div>
-                                <div class="wave-bar" style="height: 60%"></div>
-                                <div class="wave-bar" style="height: 80%"></div>
-                                <div class="wave-bar" style="height: 35%"></div>
-                                <div class="wave-bar" style="height: 70%"></div>
-                                <div class="wave-bar" style="height: 45%"></div>
-                                <div class="wave-bar" style="height: 85%"></div>
-                                <div class="wave-bar" style="height: 30%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="demo-results">
-                        <div class="result-card">
-                            <h3>Recognition Results</h3>
-                            <div class="result-item">
-                                <span class="result-label">Detected Accent:</span>
-                                <span class="result-value" id="detectedAccent">-</span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-label">Confidence:</span>
-                                <span class="result-value" id="confidenceScore">-</span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-label">Processing Time:</span>
-                                <span class="result-value" id="processingTime">-</span>
-                            </div>
-                        </div>
-
-                        <div class="conversation-example">
-                            <h3>Sample Conversation</h3>
-                            <div class="conversation-messages" id="conversationMessages">
-                                <div class="message user">
-                                    <span class="message-text">Hello, I need help with my account</span>
-                                    <span class="message-accent">(Scottish accent detected)</span>
-                                </div>
-                                <div class="message ai">
-                                    <span class="message-text">Hello! I'd be happy to help you with your account. Can you please provide your account number?</span>
-                                    <span class="message-note">(Response adapted for Scottish accent patterns)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Technical Architecture Section -->
-        <section id="architecture" class="section">
-            <div class="container">
-                <h2>Technical Architecture</h2>
-                <p class="section-subtitle">Built for enterprise-grade performance and scalability</p>
-
-                <div class="demo-interface">
-                    <h3>Butter Labs Technical Architecture</h3>
-                    <div style="background: var(--color-bg-1); padding: var(--space-32); border-radius: var(--radius-lg); text-align: center; margin-bottom: var(--space-32);">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-24); margin-bottom: var(--space-24);">
-                            <div style="background: var(--color-primary); color: var(--color-btn-primary-text); padding: var(--space-16); border-radius: var(--radius-base);">
-                                <strong>Accent Recognition Engine</strong><br>
-                                <small>98% Accuracy</small>
-                            </div>
-                            <div style="background: var(--color-secondary); padding: var(--space-16); border-radius: var(--radius-base);">
-                                <strong>Natural Language Understanding</strong><br>
-                                <small>Multi-dialect NLU</small>
-                            </div>
-                            <div style="background: var(--color-bg-3); padding: var(--space-16); border-radius: var(--radius-base);">
-                                <strong>Dialogue Management</strong><br>
-                                <small>Context-aware responses</small>
-                            </div>
-                            <div style="background: var(--color-bg-6); padding: var(--space-16); border-radius: var(--radius-base);">
-                                <strong>Voice Processing Pipeline</strong><br>
-                                <small>Real-time processing</small>
-                            </div>
-                        </div>
-                        <p style="margin: 0; color: var(--color-text-secondary);">Enterprise-grade architecture with 99.9% uptime and < 100ms response time</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- User Flows Section -->
-        <section id="flows" class="section">
-            <div class="container">
-                <h2>User Flows</h2>
-                <p class="section-subtitle">Understand how Butter Labs integrates into your workflow</p>
-
-                <div class="demo-interface">
-                    <h3>Customer Journey with Butter Labs</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-24);">
-                        <div style="background: var(--color-bg-1); padding: var(--space-20); border-radius: var(--radius-base); text-align: center;">
-                            <div style="width: 40px; height: 40px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-12); font-weight: bold;">1</div>
-                            <h4>Initial Contact</h4>
-                            <p style="margin: 0; color: var(--color-text-secondary);">Customer calls with natural accent</p>
-                        </div>
-                        <div style="background: var(--color-bg-2); padding: var(--space-20); border-radius: var(--radius-base); text-align: center;">
-                            <div style="width: 40px; height: 40px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-12); font-weight: bold;">2</div>
-                            <h4>Accent Detection</h4>
-                            <p style="margin: 0; color: var(--color-text-secondary);">Instant recognition of regional patterns</p>
-                        </div>
-                        <div style="background: var(--color-bg-3); padding: var(--space-20); border-radius: var(--radius-base); text-align: center;">
-                            <div style="width: 40px; height: 40px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-12); font-weight: bold;">3</div>
-                            <h4>Adaptive Processing</h4>
-                            <p style="margin: 0; color: var(--color-text-secondary);">AI adjusts for optimal understanding</p>
-                        </div>
-                        <div style="background: var(--color-bg-4); padding: var(--space-20); border-radius: var(--radius-base); text-align: center;">
-                            <div style="width: 40px; height: 40px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-12); font-weight: bold;">4</div>
-                            <h4>Natural Conversation</h4>
-                            <p style="margin: 0; color: var(--color-text-secondary);">Seamless accent-aware dialogue</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- API Documentation Section -->
-        <section id="api" class="section">
-            <div class="container">
-                <h2>API Documentation</h2>
-                <p class="section-subtitle">Integrate Butter Labs into your applications</p>
-
-                <div class="demo-interface">
-                    <h3>REST API & WebSocket Integration</h3>
-                    <p>Our comprehensive API allows you to integrate Butter Labs' accent-aware conversational capabilities into any application.</p>
+                <!-- Part B: Technical Deep Dive -->
+                <div class="demo__part" id="partB" style="display: none;">
+                    <h3>Technical Deep Dive</h3>
+                    <p>Our accent-aware AI understood nuances other systems miss</p>
                     
-                    <div style="background: var(--color-bg-1); padding: var(--space-16); border-radius: var(--radius-base); margin-bottom: var(--space-24);">
-                        <h4>Base URL</h4>
-                        <code>https://api.butterlabs.ai/v1</code>
-                    </div>
-
-                    <div style="display: grid; gap: var(--space-24);">
-                        <div style="background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-lg); overflow: hidden;">
-                            <div style="background: var(--color-bg-5); padding: var(--space-16); display: flex; align-items: center; gap: var(--space-12);">
-                                <span style="background: var(--color-bg-4); padding: var(--space-4) var(--space-8); border-radius: var(--radius-sm); font-size: var(--font-size-xs); font-weight: bold; text-transform: uppercase;">POST</span>
-                                <code>/api/v1/speech/analyze</code>
-                            </div>
-                            <div style="padding: var(--space-20);">
-                                <p>Analyze speech input and detect accent</p>
-                                <div style="margin: var(--space-16) 0;">
-                                    <h5 style="margin-bottom: var(--space-8); color: var(--color-primary); font-size: var(--font-size-sm);">Request Example:</h5>
-                                    <pre style="background: var(--color-secondary); padding: var(--space-12); border-radius: var(--radius-sm); overflow-x: auto;"><code>{
-  "audio_data": "base64_encoded_audio",
-  "format": "wav",
-  "sample_rate": 16000
-}</code></pre>
-                                </div>
-                                <div style="margin: var(--space-16) 0;">
-                                    <h5 style="margin-bottom: var(--space-8); color: var(--color-primary); font-size: var(--font-size-sm);">Response Example:</h5>
-                                    <pre style="background: var(--color-secondary); padding: var(--space-12); border-radius: var(--radius-sm); overflow-x: auto;"><code>{
-  "accent": "scottish",
-  "confidence": 0.96,
-  "text": "Hello, I need help with my account",
-  "processing_time_ms": 85
-}</code></pre>
-                                </div>
+                    <div class="accent-detection">
+                        <div class="accent-info">
+                            <h4>Accent Analysis</h4>
+                            <p><strong>Detected:</strong> <span id="detectedAccent">Scottish</span> accent</p>
+                            <p><strong>Confidence:</strong> <span id="confidence">97%</span></p>
+                            <p>This accent awareness allows for better understanding and more natural conversations.</p>
+                        </div>
+                        
+                        <div class="waveform-container">
+                            <div class="waveform" id="waveform">
+                                <div class="waveform__bar"></div>
+                                <div class="waveform__bar"></div>
+                                <div class="waveform__bar"></div>
+                                <div class="waveform__bar"></div>
+                                <div class="waveform__bar"></div>
+                                <div class="waveform__bar"></div>
+                                <div class="waveform__bar"></div>
+                                <div class="waveform__bar"></div>
+                                <div class="waveform__bar"></div>
+                                <div class="waveform__bar"></div>
                             </div>
                         </div>
+                    </div>
+                    
+                    <button id="backToDemo" class="btn btn--secondary">← Back to Demo</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                        <div style="background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-lg); overflow: hidden;">
-                            <div style="background: var(--color-bg-3); padding: var(--space-16); display: flex; align-items: center; gap: var(--space-12);">
-                                <span style="background: var(--color-bg-3); padding: var(--space-4) var(--space-8); border-radius: var(--radius-sm); font-size: var(--font-size-xs); font-weight: bold; text-transform: uppercase;">GET</span>
-                                <code>/api/v1/accents/supported</code>
-                            </div>
-                            <div style="padding: var(--space-20);">
-                                <p>Get list of supported accents</p>
-                                <div style="margin: var(--space-16) 0;">
-                                    <h5 style="margin-bottom: var(--space-8); color: var(--color-primary); font-size: var(--font-size-sm);">Response Example:</h5>
-                                    <pre style="background: var(--color-secondary); padding: var(--space-12); border-radius: var(--radius-sm); overflow-x: auto;"><code>{
-  "accents": [
-    "scottish", "welsh", "northern_irish",
-    "geordie", "yorkshire", "cornish",
-    "brummie", "scouse", "devon",
-    "norfolk", "cockney", "rp",
-    "west_country", "midlands"
-  ],
-  "total_count": 14
-}</code></pre>
-                                </div>
-                            </div>
+    <!-- ROI Calculator -->
+    <section id="roi" class="roi">
+        <div class="container">
+            <div class="section__header">
+                <h2>Calculate Your Savings</h2>
+                <p>See exactly how much Butter Labs can save your organization</p>
+            </div>
+
+            <div class="roi__calculator">
+                <div class="roi__inputs">
+                    <div class="roi__input-group">
+                        <label for="agentCount">Number of Agents</label>
+                        <input type="number" id="agentCount" class="form-control" value="50" min="1">
+                    </div>
+                    <div class="roi__input-group">
+                        <label for="avgSalary">Average Agent Salary (Annual)</label>
+                        <input type="number" id="avgSalary" class="form-control" value="35000" min="0">
+                    </div>
+                    <div class="roi__input-group">
+                        <label for="callVolume">Monthly Call Volume</label>
+                        <input type="number" id="callVolume" class="form-control" value="10000" min="0">
+                    </div>
+                </div>
+
+                <div class="roi__results">
+                    <h3>Your Potential Savings</h3>
+                    <div class="savings__grid">
+                        <div class="savings__item">
+                            <span class="savings__label">Monthly Savings</span>
+                            <span class="savings__value" id="monthlySavings">£0</span>
+                        </div>
+                        <div class="savings__item">
+                            <span class="savings__label">Annual Savings</span>
+                            <span class="savings__value" id="annualSavings">£0</span>
+                        </div>
+                        <div class="savings__item">
+                            <span class="savings__label">Payback Period</span>
+                            <span class="savings__value" id="paybackPeriod">0 months</span>
+                        </div>
+                        <div class="savings__item">
+                            <span class="savings__label">3-Year ROI</span>
+                            <span class="savings__value" id="threeYearROI">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="roi__chart">
+                    <h4>Break-Even Analysis</h4>
+                    <div class="break-even-info">
+                        <p>You'll break even after handling <span id="breakEvenCalls">50,000</span> calls</p>
+                        <p>Estimated timeline: <span id="breakEvenTimeline">6 months</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="architecture">
+        <div class="container">
+            <div class="section__header">
+                <h2>Platform Architecture</h2>
+                <p>Four core components that deliver exceptional results</p>
+            </div>
+
+            <div class="architecture__grid">
+                <div class="architecture__card">
+                    <div class="card__icon">🎯</div>
+                    <h3>Accent Recognition Engine</h3>
+                    <p>98% accuracy across 14 UK regional accents for natural conversations</p>
+                </div>
+                <div class="architecture__card">
+                    <div class="card__icon">🧠</div>
+                    <h3>Conversation Intelligence</h3>
+                    <p>Complex dialogue management with context awareness for superior outcomes</p>
+                </div>
+                <div class="architecture__card">
+                    <div class="card__icon">💰</div>
+                    <h3>Cost Optimization</h3>
+                    <p>40% operational expense reduction through intelligent automation</p>
+                </div>
+                <div class="architecture__card">
+                    <div class="card__icon">🔌</div>
+                    <h3>Integration Platform</h3>
+                    <p>Seamless connection to existing CRM and contact center systems</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Success Stories -->
+    <section id="success" class="success">
+        <div class="container">
+            <div class="section__header">
+                <h2>Customer Success Stories</h2>
+                <p>Real results from organizations like yours</p>
+            </div>
+
+            <div class="success__stories">
+                <div class="story__card">
+                    <div class="story__header">
+                        <h3>MegaTel Communications</h3>
+                        <span class="story__industry">Telecommunications</span>
+                    </div>
+                    <div class="story__quote">
+                        "Butter Labs transformed our contact center economics"
+                    </div>
+                    <div class="story__metrics">
+                        <div class="metric">
+                            <span class="metric__value">45%</span>
+                            <span class="metric__label">Cost Reduction</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric__value">£8.2M</span>
+                            <span class="metric__label">Annual Savings</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="story__card">
+                    <div class="story__header">
+                        <h3>PowerGrid Utilities</h3>
+                        <span class="story__industry">Energy/Utilities</span>
+                    </div>
+                    <div class="story__quote">
+                        "Better service at a fraction of the cost"
+                    </div>
+                    <div class="story__metrics">
+                        <div class="metric">
+                            <span class="metric__value">60%</span>
+                            <span class="metric__label">Fewer Escalations</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric__value">£5.7M</span>
+                            <span class="metric__label">Saved Annually</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="story__card">
+                    <div class="story__header">
+                        <h3>HealthFirst</h3>
+                        <span class="story__industry">Healthcare</span>
+                    </div>
+                    <div class="story__quote">
+                        "Patients get immediate help, we save millions"
+                    </div>
+                    <div class="story__metrics">
+                        <div class="metric">
+                            <span class="metric__value">98%</span>
+                            <span class="metric__label">Patient Satisfaction</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric__value">65%</span>
+                            <span class="metric__label">Cost Reduction</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Performance Analytics Section -->
-        <section id="analytics" class="section">
-            <div class="container">
-                <h2>Performance Analytics</h2>
-                <p class="section-subtitle">Real-time insights and comprehensive metrics</p>
-
-                <div class="demo-interface">
-                    <h3>Real-time Metrics Dashboard</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-20); margin-bottom: var(--space-32);">
-                        <div style="background: var(--color-bg-1); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-20); text-align: center;">
-                            <h4 style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-8);">Active Calls</h4>
-                            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-4);">2,847</div>
-                            <div style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-success);">↑ 12%</div>
-                        </div>
-                        <div style="background: var(--color-bg-2); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-20); text-align: center;">
-                            <h4 style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-8);">Average Accuracy</h4>
-                            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-4);">98.2%</div>
-                            <div style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-success);">↑ 0.3%</div>
-                        </div>
-                        <div style="background: var(--color-bg-3); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-20); text-align: center;">
-                            <h4 style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-8);">Response Time</h4>
-                            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-4);">89ms</div>
-                            <div style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-success);">↓ 5ms</div>
-                        </div>
-                        <div style="background: var(--color-bg-4); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-20); text-align: center;">
-                            <h4 style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-8);">Cost Savings</h4>
-                            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-4);">£127K</div>
-                            <div style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-success);">↑ £23K</div>
-                        </div>
-                    </div>
-
-                    <div style="background: var(--color-bg-1); border-radius: var(--radius-base); padding: var(--space-24);">
-                        <h4 style="margin-bottom: var(--space-16); color: var(--color-primary);">Accent Distribution (Last 24h)</h4>
-                        <div style="display: flex; flex-direction: column; gap: var(--space-12);">
-                            <div style="display: flex; align-items: center; gap: var(--space-12);">
-                                <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Scottish</span>
-                                <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
-                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-logo-brown)); border-radius: var(--radius-sm); width: 18%;"></div>
-                                </div>
-                                <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">18%</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: var(--space-12);">
-                                <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Yorkshire</span>
-                                <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
-                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-logo-brown)); border-radius: var(--radius-sm); width: 15%;"></div>
-                                </div>
-                                <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">15%</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: var(--space-12);">
-                                <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Geordie</span>
-                                <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
-                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-logo-brown)); border-radius: var(--radius-sm); width: 12%;"></div>
-                                </div>
-                                <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">12%</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: var(--space-12);">
-                                <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Other</span>
-                                <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
-                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-logo-brown)); border-radius: var(--radius-sm); width: 55%;"></div>
-                                </div>
-                                <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">55%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Getting Started Section -->
-        <section id="getting-started" class="section">
-            <div class="container">
+    <!-- Getting Started -->
+    <section id="getting-started" class="getting-started">
+        <div class="container">
+            <div class="section__header">
                 <h2>Getting Started</h2>
-                <p class="section-subtitle">Quick setup and integration guide</p>
+                <p>Your journey to dramatic cost savings in four simple steps</p>
+            </div>
 
-                <div style="display: flex; flex-direction: column; gap: var(--space-32);">
-                    <div style="display: flex; gap: var(--space-24); align-items: flex-start;">
-                        <div style="width: 60px; height: 60px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); flex-shrink: 0;">1</div>
-                        <div style="flex: 1;">
-                            <h3 style="color: var(--color-primary); margin-bottom: var(--space-12);">Sign Up & API Key</h3>
-                            <p>Create your Butter Labs account and obtain your API key</p>
-                            <div style="background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-16); margin-top: var(--space-16);">
-                                <code>curl -X POST https://api.butterlabs.ai/v1/auth/register</code>
-                            </div>
-                        </div>
+            <div class="process__grid">
+                <div class="process__step">
+                    <div class="step__number">1</div>
+                    <div class="step__content">
+                        <h3>Discovery Call</h3>
+                        <p>30-minute consultation to understand your specific challenges</p>
                     </div>
-
-                    <div style="display: flex; gap: var(--space-24); align-items: flex-start;">
-                        <div style="width: 60px; height: 60px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); flex-shrink: 0;">2</div>
-                        <div style="flex: 1;">
-                            <h3 style="color: var(--color-primary); margin-bottom: var(--space-12);">Install SDK</h3>
-                            <p>Choose your preferred programming language and install our SDK</p>
-                            <div style="background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-16); margin-top: var(--space-16);">
-                                <code>npm install @butterlabs/ai-sdk</code>
-                            </div>
-                        </div>
+                </div>
+                
+                <div class="process__step">
+                    <div class="step__number">2</div>
+                    <div class="step__content">
+                        <h3>Custom Demo</h3>
+                        <p>Live demonstration with your specific use cases</p>
                     </div>
-
-                    <div style="display: flex; gap: var(--space-24); align-items: flex-start;">
-                        <div style="width: 60px; height: 60px; background: var(--color-primary); color: var(--color-btn-primary-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); flex-shrink: 0;">3</div>
-                        <div style="flex: 1;">
-                            <h3 style="color: var(--color-primary); margin-bottom: var(--space-12);">Configure & Test</h3>
-                            <p>Initialize the client and run your first accent recognition test</p>
-                            <div style="background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-16); margin-top: var(--space-16);">
-                                <code>const client = new ButterLabs({<br>&nbsp;&nbsp;apiKey: 'your-api-key'<br>});<br><br>const result = await client.speech.analyze(audioData);</code>
-                            </div>
-                        </div>
+                </div>
+                
+                <div class="process__step">
+                    <div class="step__number">3</div>
+                    <div class="step__content">
+                        <h3>Pilot Program</h3>
+                        <p>30-day trial with real customer interactions</p>
+                    </div>
+                </div>
+                
+                <div class="process__step">
+                    <div class="step__number">4</div>
+                    <div class="step__content">
+                        <h3>Full Deployment</h3>
+                        <p>Gradual rollout with training and support</p>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section__header">
+                <h2>Get Your Custom ROI Analysis</h2>
+                <p>Let's calculate your specific savings potential</p>
+            </div>
+
+            <div class="contact__form">
+                <form id="contactForm">
+                    <div class="form__grid">
+                        <div class="form-group">
+                            <label for="company" class="form-label">Company Name</label>
+                            <input type="text" id="company" name="company" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactCallVolume" class="form-label">Monthly Call Volume</label>
+                            <input type="number" id="contactCallVolume" name="callVolume" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group form-group--full">
+                            <label for="painPoints" class="form-label">Main Pain Points</label>
+                            <textarea id="painPoints" name="painPoints" class="form-control" rows="4" placeholder="Tell us about your current challenges with customer service..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn--primary btn--lg btn--full-width">Get Custom ROI Analysis</button>
+                    
+                    <div id="formMessage" class="form-message" style="display: none;"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
+            <div class="footer__content">
+                <div class="footer__brand">
                     <h3>Butter Labs</h3>
-                    <p class="footer-tagline">Making every voice heard and valued</p>
+                    <p>Intelligent conversations, intelligent savings</p>
                 </div>
-                <div class="footer-links">
-                    <div class="footer-section">
-                        <h4>Product</h4>
-                        <ul>
-                            <li><a href="#demo">Demo</a></li>
-                            <li><a href="#architecture">Architecture</a></li>
-                            <li><a href="#api">API Docs</a></li>
-                            <li><a href="#analytics">Analytics</a></li>
-                        </ul>
+                
+                <div class="footer__links">
+                    <div class="footer__column">
+                        <h4>Platform</h4>
+                        <a href="#architecture">Architecture</a>
+                        <a href="#demo">Demo</a>
+                        <a href="#roi">ROI Calculator</a>
                     </div>
-                    <div class="footer-section">
+                    
+                    <div class="footer__column">
                         <h4>Company</h4>
-                        <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Press</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h4>Support</h4>
-                        <ul>
-                            <li><a href="#getting-started">Getting Started</a></li>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Status</a></li>
-                            <li><a href="#">Security</a></li>
-                        </ul>
+                        <a href="#success">Success Stories</a>
+                        <a href="#getting-started">Getting Started</a>
+                        <a href="#contact">Contact</a>
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom">
+            
+            <div class="footer__bottom">
                 <p>&copy; 2025 Butter Labs. All rights reserved.</p>
-                <div class="footer-legal">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">GDPR</a>
-                </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Butter Labs Demo Application JavaScript
-        class ButterLabsDemo {
-            constructor() {
-                this.currentSection = 'home';
-                this.isProcessing = false;
-                this.init();
+        // Demo scenarios
+        const demoScenarios = {
+            billing: {
+                customer: "Hi, I'm looking at my bill and there's a charge I don't recognize. It's £49.99 for something called 'Premium Voice Package' but I never signed up for this.",
+                ai: "I understand your concern about the unexpected charge. Let me check your account immediately. I can see the Premium Voice Package was added on March 15th during a call about improving call quality. However, I can see you weren't properly informed about the charges. I'm removing this charge and issuing a full refund of £49.99, which will appear in 2-3 business days. I've also added a note to prevent future automatic upgrades without explicit consent.",
+                resolutionTime: "2m 15s",
+                satisfaction: "94%",
+                costSaved: "£28",
+                accent: "Yorkshire",
+                confidence: "94%"
+            },
+            technical: {
+                customer: "My internet has been cutting out every few hours for the past week. I've already restarted the router multiple times but it's not helping. This is affecting my work from home.",
+                ai: "I'm sorry you're experiencing these connectivity issues. Let me run a comprehensive diagnostic on your line right now. I can see intermittent signal degradation from your local exchange - this is a known issue we're actively resolving. I'm scheduling a priority engineer visit for tomorrow morning between 8-10 AM and providing you with a mobile hotspot device for immediate use. You'll also receive account credit for the disruption. The engineer will upgrade your connection while fixing the issue.",
+                resolutionTime: "1m 45s",
+                satisfaction: "96%",
+                costSaved: "£35",
+                accent: "Cockney",
+                confidence: "91%"
+            },
+            account: {
+                customer: "I need to update my payment method and change my address. I'm moving house next week and want to make sure everything transfers smoothly.",
+                ai: "Absolutely, I'll help you with both updates to ensure a seamless transition. First, I've updated your address to the new location and confirmed service availability - you'll have the same package with even better speeds there. For the payment method, I've securely updated your card details. I'm also scheduling a free installation at your new address for your moving day, and your service will be ready when you arrive. You'll receive confirmation emails for both changes within an hour.",
+                resolutionTime: "3m 10s",
+                satisfaction: "92%",
+                costSaved: "£22",
+                accent: "Received Pronunciation",
+                confidence: "98%"
+            },
+            service: {
+                customer: "The picture on my TV keeps freezing during shows, and some channels aren't working at all. It's been like this for three days now.",
+                ai: "I can definitely resolve these TV service issues for you. I'm detecting signal quality problems with your set-top box and some channel authorization errors. I'm remotely refreshing your service authorization and pushing a software update to your box now. I can also see three premium channels were accidentally removed from your package - I'm restoring those immediately. To prevent future issues, I'm also sending you our latest 4K box at no charge, which will be delivered tomorrow with easy self-installation instructions.",
+                resolutionTime: "2m 30s",
+                satisfaction: "95%",
+                costSaved: "£31",
+                accent: "Manchester",
+                confidence: "89%"
+            },
+            cancellation: {
+                customer: "I'm thinking about canceling my service. The price has gone up too much and I'm not happy with the customer service I've received recently.",
+                ai: "I completely understand your frustration, and I want to address your concerns properly. Looking at your account, I can see you're a valued customer of 4 years. I'm immediately applying our loyalty discount which reduces your monthly bill by £15, and I'm also adding three months of premium channels at no cost. Additionally, I'm escalating your previous service concerns to our customer experience team for review and compensation. This gives you significant savings while we work to exceed your expectations. Would you like to try these improvements for 30 days with no commitment?",
+                resolutionTime: "4m 20s",
+                satisfaction: "88%",
+                costSaved: "£45",
+                accent: "Scottish",
+                confidence: "97%"
             }
+        };
 
-            init() {
-                this.setupNavigation();
-                this.setupDemo();
-                this.setupHeroButtons();
-                this.setupMobileNav();
-                this.setupScrollAnimations();
-                
-                // Initial setup
-                this.showSection('home');
-                setTimeout(() => {
-                    this.animateAccuracyBars();
-                }, 500);
-            }
-
-            // Navigation Management
-            setupNavigation() {
-                const navLinks = document.querySelectorAll('.nav-link');
-                
-                navLinks.forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        
-                        const targetId = link.getAttribute('href').substring(1);
-                        this.navigateToSection(targetId);
-                    });
-                });
-            }
-
-            navigateToSection(sectionId) {
-                // Hide all sections
-                document.querySelectorAll('.section').forEach(section => {
-                    section.classList.remove('active');
-                    section.style.display = 'none';
-                });
-
-                // Show target section
-                const targetSection = document.getElementById(sectionId);
-                if (targetSection) {
-                    targetSection.classList.add('active');
-                    targetSection.style.display = 'block';
-                    this.currentSection = sectionId;
-                }
-
-                // Update navigation
-                this.updateActiveNavLink(sectionId);
-
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                // Trigger section-specific animations
-                setTimeout(() => {
-                    this.triggerSectionAnimations(sectionId);
-                }, 100);
-            }
-
-            showSection(sectionId) {
-                this.navigateToSection(sectionId);
-            }
-
-            updateActiveNavLink(sectionId = null) {
-                const activeSection = sectionId || this.currentSection;
-                
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                    const href = link.getAttribute('href');
-                    if (href === `#${activeSection}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-
-            triggerSectionAnimations(sectionId) {
-                switch (sectionId) {
-                    case 'home':
-                        setTimeout(() => this.animateAccuracyBars(), 200);
-                        break;
-                    case 'demo':
-                        setTimeout(() => this.startWaveformAnimations(), 200);
-                        break;
-                }
-            }
-
-            // Demo Section Functionality
-            setupDemo() {
-                const accentSelect = document.getElementById('accentSelect');
-                const startDemoBtn = document.getElementById('startDemo');
-
-                if (startDemoBtn && accentSelect) {
-                    startDemoBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const selectedAccent = accentSelect.value;
-                        
-                        if (selectedAccent) {
-                            this.runDemo(selectedAccent);
-                        } else {
-                            alert('Please select an accent first');
-                        }
-                    });
-                }
-
-                // Start waveform animations
-                this.startWaveformAnimations();
-            }
-
-            async runDemo(accent) {
-                if (this.isProcessing) return;
-
-                this.isProcessing = true;
-                const startBtn = document.getElementById('startDemo');
-                const processingIndicator = document.querySelector('.processing-indicator');
-                const detectedAccent = document.getElementById('detectedAccent');
-                const confidenceScore = document.getElementById('confidenceScore');
-                const processingTime = document.getElementById('processingTime');
-
-                // Update button state
-                if (startBtn) {
-                    startBtn.textContent = 'Processing...';
-                    startBtn.disabled = true;
-                }
-
-                // Show processing indicator
-                if (processingIndicator) {
-                    processingIndicator.classList.add('active');
-                }
-
-                // Simulate processing delay
-                await this.sleep(2000 + Math.random() * 1000);
-
-                // Generate demo results
-                const results = this.generateDemoResults(accent);
-
-                // Update results
-                if (detectedAccent) detectedAccent.textContent = results.accent;
-                if (confidenceScore) confidenceScore.textContent = results.confidence;
-                if (processingTime) processingTime.textContent = results.processingTime;
-
-                // Update conversation example
-                this.updateConversationExample(accent);
-
-                // Hide processing indicator
-                if (processingIndicator) {
-                    processingIndicator.classList.remove('active');
-                }
-
-                // Reset button
-                if (startBtn) {
-                    startBtn.textContent = 'Start Recognition';
-                    startBtn.disabled = false;
-                }
-                
-                this.isProcessing = false;
-            }
-
-            generateDemoResults(accent) {
-                const accentNames = {
-                    'scottish': 'Scottish',
-                    'welsh': 'Welsh',
-                    'northern-irish': 'Northern Irish',
-                    'geordie': 'Geordie',
-                    'yorkshire': 'Yorkshire',
-                    'cornish': 'Cornish',
-                    'brummie': 'Brummie',
-                    'scouse': 'Scouse',
-                    'devon': 'Devon',
-                    'norfolk': 'Norfolk',
-                    'cockney': 'Cockney',
-                    'rp': 'Received Pronunciation',
-                    'west-country': 'West Country',
-                    'midlands': 'Midlands'
-                };
-
-                return {
-                    accent: accentNames[accent] || 'Unknown',
-                    confidence: (95 + Math.random() * 4).toFixed(1) + '%',
-                    processingTime: (80 + Math.random() * 40).toFixed(0) + 'ms'
-                };
-            }
-
-            updateConversationExample(accent) {
-                const messages = document.getElementById('conversationMessages');
-                if (!messages) return;
-
-                const examples = {
-                    'scottish': {
-                        user: 'Och, I cannae get intae my account',
-                        userNote: '(Scottish accent detected)',
-                        ai: 'I understand you\'re having trouble accessing your account. Let me help you with that right away.',
-                        aiNote: '(Response adapted for Scottish dialect patterns)'
-                    },
-                    'geordie': {
-                        user: 'Howay man, me account\'s not working',
-                        userNote: '(Geordie accent detected)',
-                        ai: 'I can see you\'re having issues with your account. Let me sort that out for you.',
-                        aiNote: '(Response adapted for Geordie dialect patterns)'
-                    },
-                    'welsh': {
-                        user: 'Right then, my account isn\'t working properly',
-                        userNote: '(Welsh accent detected)',
-                        ai: 'I understand there\'s a problem with your account. I\'ll help you resolve this straight away.',
-                        aiNote: '(Response adapted for Welsh dialect patterns)'
-                    }
-                };
-
-                const example = examples[accent] || {
-                    user: 'Hello, I need help with my account',
-                    userNote: `(${accent.replace('-', ' ')} accent detected)`,
-                    ai: 'Hello! I\'d be happy to help you with your account. Can you please provide your account number?',
-                    aiNote: `(Response adapted for ${accent.replace('-', ' ')} accent patterns)`
-                };
-
-                messages.innerHTML = `
-                    <div class="message user">
-                        <span class="message-text">${example.user}</span>
-                        <span class="message-accent">${example.userNote}</span>
-                    </div>
-                    <div class="message ai">
-                        <span class="message-text">${example.ai}</span>
-                        <span class="message-note">${example.aiNote}</span>
-                    </div>
-                `;
-            }
-
-            startWaveformAnimations() {
-                const waveBars = document.querySelectorAll('.wave-bar');
-                
-                if (this.waveformInterval) {
-                    clearInterval(this.waveformInterval);
-                }
-                
-                this.waveformInterval = setInterval(() => {
-                    waveBars.forEach((bar, index) => {
-                        const time = Date.now() / 1000;
-                        const frequency = 0.5 + (index % 3) * 0.3;
-                        const amplitude = 30 + Math.sin(time * frequency + index * 0.5) * 25;
-                        const noise = Math.random() * 15;
-                        
-                        bar.style.height = Math.max(8, amplitude + noise) + '%';
-                    });
-                }, 200);
-            }
-
-            // Accuracy Bar Animations
-            animateAccuracyBars() {
-                const accuracyFills = document.querySelectorAll('.accuracy-fill');
-                
-                // Reset first
-                accuracyFills.forEach(fill => {
-                    fill.style.width = '0%';
-                });
-                
-                // Then animate
-                setTimeout(() => {
-                    accuracyFills.forEach((fill, index) => {
-                        setTimeout(() => {
-                            if (fill.classList.contains('butter-labs')) {
-                                fill.style.width = '98%';
-                            } else if (fill.classList.contains('competitor')) {
-                                fill.style.width = '76%';
-                            }
-                        }, index * 500);
-                    });
-                }, 200);
-            }
-
-            // Hero Button Handlers
-            setupHeroButtons() {
-                const tryDemoBtn = document.getElementById('tryDemoBtn');
-                const learnMoreBtn = document.getElementById('learnMoreBtn');
-
-                if (tryDemoBtn) {
-                    tryDemoBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.navigateToSection('demo');
-                    });
-                }
-
-                if (learnMoreBtn) {
-                    learnMoreBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.navigateToSection('architecture');
-                    });
-                }
-            }
-
-            // Mobile Navigation
-            setupMobileNav() {
-                const navToggle = document.getElementById('navToggle');
-                const navLinks = document.querySelector('.nav-links');
-
-                if (navToggle && navLinks) {
-                    navToggle.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        navLinks.classList.toggle('show');
-                    });
-
-                    // Close mobile nav when clicking on a link
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.addEventListener('click', () => {
-                            if (navLinks) {
-                                navLinks.classList.remove('show');
-                            }
-                        });
-                    });
-
-                    // Close mobile nav when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
-                            navLinks.classList.remove('show');
-                        }
-                    });
-                }
-            }
-
-            // Scroll-triggered animations
-            setupScrollAnimations() {
-                const observerOptions = {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px'
-                };
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('animate-in');
-                        }
-                    });
-                }, observerOptions);
-
-                // Observe all cards and major elements
-                document.querySelectorAll('.feature-card').forEach(el => {
-                    observer.observe(el);
-                });
-            }
-
-            // Utility Functions
-            sleep(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
+        // Utility functions
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Initialize the application when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            const app = new ButterLabsDemo();
+        function formatCurrency(amount) {
+            return '£' + amount.toLocaleString();
+        }
+
+        function addMessage(type, text) {
+            const messagesContainer = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message message--${type}`;
             
-            // Make app globally available for debugging
-            window.ButterLabsApp = app;
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message__bubble';
+            bubbleDiv.textContent = text;
+            
+            messageDiv.appendChild(bubbleDiv);
+            messagesContainer.appendChild(messageDiv);
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function typeMessage(type, text, callback) {
+            const messagesContainer = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message message--${type}`;
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message__bubble';
+            messageDiv.appendChild(bubbleDiv);
+            messagesContainer.appendChild(messageDiv);
+            
+            let i = 0;
+            const typeInterval = setInterval(() => {
+                bubbleDiv.textContent = text.substring(0, i);
+                i++;
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                if (i > text.length) {
+                    clearInterval(typeInterval);
+                    if (callback) callback();
+                }
+            }, 30);
+        }
+
+        // Demo functionality
+        document.getElementById('startDemo').addEventListener('click', function() {
+            const issueType = document.getElementById('issueType').value;
+            const scenario = demoScenarios[issueType];
+            
+            // Hide placeholder and show messages
+            document.querySelector('.conversation__placeholder').style.display = 'none';
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.style.display = 'block';
+            messagesContainer.innerHTML = '';
+            
+            // Disable the button during demo
+            this.disabled = true;
+            this.textContent = 'Demo Running...';
+            
+            // Add customer message immediately
+            addMessage('customer', scenario.customer);
+            
+            // Add AI response with typing effect after a delay
+            setTimeout(() => {
+                typeMessage('ai', scenario.ai, () => {
+                    // Show results after AI response is complete
+                    setTimeout(() => {
+                        showDemoResults(scenario);
+                        // Re-enable button
+                        document.getElementById('startDemo').disabled = false;
+                        document.getElementById('startDemo').textContent = 'Start New Conversation';
+                    }, 1000);
+                });
+            }, 1000);
+        });
+
+        function showDemoResults(scenario) {
+            document.getElementById('resolutionTime').textContent = scenario.resolutionTime;
+            document.getElementById('satisfaction').textContent = scenario.satisfaction;
+            document.getElementById('costSaved').textContent = scenario.costSaved;
+            document.getElementById('detectedAccent').textContent = scenario.accent;
+            document.getElementById('confidence').textContent = scenario.confidence;
+            
+            document.getElementById('demoResults').style.display = 'block';
+        }
+
+        // Technical demo toggle
+        document.getElementById('showTechnical').addEventListener('click', function() {
+            document.getElementById('partA').style.display = 'none';
+            document.getElementById('partB').style.display = 'block';
+        });
+
+        document.getElementById('backToDemo').addEventListener('click', function() {
+            document.getElementById('partB').style.display = 'none';
+            document.getElementById('partA').style.display = 'block';
+        });
+
+        // ROI Calculator
+        function calculateROI() {
+            const agentCount = parseInt(document.getElementById('agentCount').value) || 0;
+            const avgSalary = parseInt(document.getElementById('avgSalary').value) || 0;
+            const callVolume = parseInt(document.getElementById('callVolume').value) || 0;
+            
+            // Calculate potential savings (40% cost reduction)
+            const totalSalaryMonth = (avgSalary * agentCount) / 12;
+            const monthlySavings = totalSalaryMonth * 0.4;
+            const annualSavings = monthlySavings * 12;
+            
+            // Calculate implementation cost (estimated)
+            const implementationCost = 50000 + (agentCount * 500);
+            const paybackMonths = Math.ceil(implementationCost / monthlySavings);
+            
+            // Calculate 3-year ROI
+            const threeYearSavings = annualSavings * 3;
+            const threeYearROI = ((threeYearSavings - implementationCost) / implementationCost) * 100;
+            
+            // Calculate break-even metrics
+            const costPerCall = 8.50; // estimated
+            const savingsPerCall = costPerCall * 0.4;
+            const breakEvenCalls = Math.ceil(implementationCost / savingsPerCall);
+            const breakEvenMonths = Math.ceil(breakEvenCalls / callVolume);
+            
+            // Update display
+            document.getElementById('monthlySavings').textContent = formatCurrency(Math.round(monthlySavings));
+            document.getElementById('annualSavings').textContent = formatCurrency(Math.round(annualSavings));
+            document.getElementById('paybackPeriod').textContent = paybackMonths + ' months';
+            document.getElementById('threeYearROI').textContent = Math.round(threeYearROI) + '%';
+            document.getElementById('breakEvenCalls').textContent = breakEvenCalls.toLocaleString();
+            document.getElementById('breakEvenTimeline').textContent = breakEvenMonths + ' months';
+        }
+
+        // Add event listeners for ROI inputs
+        ['agentCount', 'avgSalary', 'callVolume'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateROI);
+        });
+
+        // Initial calculation
+        calculateROI();
+
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formMessage = document.getElementById('formMessage');
+            const submitBtn = this.querySelector('button[type="submit"]');
+            
+            // Simulate form submission
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            setTimeout(() => {
+                formMessage.className = 'form-message form-message--success';
+                formMessage.textContent = 'Thank you! We\'ll contact you within 24 hours with your custom ROI analysis.';
+                formMessage.style.display = 'block';
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Get Custom ROI Analysis';
+                
+                // Reset form
+                this.reset();
+            }, 2000);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'var(--bg-secondary)';
+                header.style.backdropFilter = 'none';
+            }
         });
     </script>
 </body>
