@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Butter Labs - Accent-Aware Conversational AI</title>
     <style>
-
 :root {
+  /* Butter Labs Color Palette */
   --color-butter-yellow: #FCDC7D;
   --color-logo-brown: #4B2E14;
   --color-dark-chocolate: #3C2415;
@@ -16,146 +16,70 @@
   --color-cream-bg: #FFF9F0;
   --color-surface-cream: #FFF5E6;
 
-  --text-primary: var(--color-logo-brown);
-  --text-secondary: var(--color-navy-blue);
-  --text-light: var(--color-cream-bg);
+  /* Additional supporting colors */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
 
-  --background-primary: var(--color-dark-chocolate);
-  --background-secondary: var(--color-navy-blue);
-  --background-tertiary: var(--color-surface-cream);
-  --background-cream: var(--color-cream-bg);
+  /* RGB versions for opacity control */
+  --color-butter-yellow-rgb: 252, 220, 125;
+  --color-logo-brown-rgb: 75, 46, 20;
+  --color-dark-chocolate-rgb: 60, 36, 21;
+  --color-navy-blue-rgb: 31, 42, 68;
+  --color-accent-blue-rgb: 59, 90, 138;
+  --color-cream-bg-rgb: 255, 249, 240;
 
-  --accent-primary: var(--color-butter-yellow);
-  --accent-secondary: var(--color-accent-blue);
-  --accent-tertiary: var(--color-light-blue);
+  /* Background color tokens (Light Mode) */
+  --color-bg-1: rgba(252, 220, 125, 0.12); /* Light butter */
+  --color-bg-2: rgba(75, 46, 20, 0.08); /* Light brown */
+  --color-bg-3: rgba(59, 90, 138, 0.08); /* Light accent blue */
+  --color-bg-4: rgba(239, 68, 68, 0.08); /* Light red */
+  --color-bg-5: rgba(147, 51, 234, 0.08); /* Light purple */
+  --color-bg-6: rgba(249, 115, 22, 0.08); /* Light orange */
+  --color-bg-7: rgba(236, 72, 153, 0.08); /* Light pink */
+  --color-bg-8: rgba(6, 182, 212, 0.08); /* Light cyan */
 
-  --border-color: var(--color-logo-brown);
-  --shadow-color: rgba(0, 0, 0, 0.25);
-}
+  /* Semantic Color Tokens (Light Mode) */
+  --color-background: var(--color-cream-bg);
+  --color-surface: var(--color-surface-cream);
+  --color-text: var(--color-dark-chocolate);
+  --color-text-secondary: var(--color-logo-brown);
+  --color-primary: var(--color-butter-yellow);
+  --color-primary-hover: #F5D05A;
+  --color-primary-active: #E8C547;
+  --color-secondary: rgba(var(--color-logo-brown-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-logo-brown-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-logo-brown-rgb), 0.25);
+  --color-border: rgba(var(--color-logo-brown-rgb), 0.2);
+  --color-btn-primary-text: var(--color-dark-chocolate);
+  --color-card-border: rgba(var(--color-logo-brown-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-logo-brown-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-accent-blue);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-logo-brown);
+  --color-focus-ring: rgba(var(--color-butter-yellow-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-dark-chocolate-rgb), 0.8);
 
-
-/* Dark mode colors */
-@media (prefers-color-scheme: dark) {
-  
-:root {
-  --color-butter-yellow: #FCDC7D;
-  --color-logo-brown: #4B2E14;
-  --color-dark-chocolate: #3C2415;
-  --color-navy-blue: #1F2A44;
-  --color-accent-blue: #3B5A8A;
-  --color-light-blue: #5C7BAF;
-  --color-cream-bg: #FFF9F0;
-  --color-surface-cream: #FFF5E6;
-
-  --text-primary: var(--color-logo-brown);
-  --text-secondary: var(--color-navy-blue);
-  --text-light: var(--color-cream-bg);
-
-  --background-primary: var(--color-dark-chocolate);
-  --background-secondary: var(--color-navy-blue);
-  --background-tertiary: var(--color-surface-cream);
-  --background-cream: var(--color-cream-bg);
-
-  --accent-primary: var(--color-butter-yellow);
-  --accent-secondary: var(--color-accent-blue);
-  --accent-tertiary: var(--color-light-blue);
-
-  --border-color: var(--color-logo-brown);
-  --shadow-color: rgba(0, 0, 0, 0.25);
-}
-
-}
-
-/* Data attribute for manual theme switching */
-[data-color-scheme="dark"] {
-  /* RGB versions for opacity control (dark mode) */
-  --color-gray-400-rgb: 119, 124, 124;
-  --color-teal-300-rgb: 50, 184, 198;
-  --color-gray-300-rgb: 167, 169, 169;
-  --color-gray-200-rgb: 245, 245, 245;
-
-  /* Colorful background palette - Dark Mode */
-  --color-bg-1: rgba(29, 78, 216, 0.15); /* Dark blue */
-  --color-bg-2: rgba(180, 83, 9, 0.15); /* Dark yellow */
-  --color-bg-3: rgba(21, 128, 61, 0.15); /* Dark green */
-  --color-bg-4: rgba(185, 28, 28, 0.15); /* Dark red */
-  --color-bg-5: rgba(107, 33, 168, 0.15); /* Dark purple */
-  --color-bg-6: rgba(194, 65, 12, 0.15); /* Dark orange */
-  --color-bg-7: rgba(190, 24, 93, 0.15); /* Dark pink */
-  --color-bg-8: rgba(8, 145, 178, 0.15); /* Dark cyan */
-  
-  /* Semantic Color Tokens (Dark Mode) */
-  --color-background: var(--color-charcoal-700);
-  --color-surface: var(--color-charcoal-800);
-  --color-text: var(--color-gray-200);
-  --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
-  --color-primary: var(--color-teal-300);
-  --color-primary-hover: var(--color-teal-400);
-  --color-primary-active: var(--color-teal-800);
-  --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
-  --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
-  --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
-  --color-border: rgba(var(--color-gray-400-rgb), 0.3);
-  --color-error: var(--color-red-400);
-  --color-success: var(--color-teal-300);
-  --color-warning: var(--color-orange-400);
-  --color-info: var(--color-gray-300);
-  --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
-  --color-btn-primary-text: var(--color-slate-900);
-  --color-card-border: rgba(var(--color-gray-400-rgb), 0.15);
-  --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
-  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  --color-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
-  --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
-
-  /* Common style patterns - updated for dark mode */
+  /* Common style patterns */
   --focus-ring: 0 0 0 3px var(--color-focus-ring);
   --focus-outline: 2px solid var(--color-primary);
   --status-bg-opacity: 0.15;
   --status-border-opacity: 0.25;
-  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233C2415' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23FFF9F0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
 
-  /* RGB versions for dark mode */
-  --color-success-rgb: var(--color-teal-300-rgb);
-  --color-error-rgb: var(--color-red-400-rgb);
-  --color-warning-rgb: var(--color-orange-400-rgb);
-  --color-info-rgb: var(--color-gray-300-rgb);
-}
-
-[data-color-scheme="light"] {
-  /* RGB versions for opacity control (light mode) */
-  --color-brown-600-rgb: 94, 82, 64;
-  --color-teal-500-rgb: 33, 128, 141;
-  --color-slate-900-rgb: 19, 52, 59;
-  
-  /* Semantic Color Tokens (Light Mode) */
-  --color-background: var(--color-cream-50);
-  --color-surface: var(--color-cream-100);
-  --color-text: var(--color-slate-900);
-  --color-text-secondary: var(--color-slate-500);
-  --color-primary: var(--color-teal-500);
-  --color-primary-hover: var(--color-teal-600);
-  --color-primary-active: var(--color-teal-700);
-  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
-  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-btn-primary-text: var(--color-cream-50);
-  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-error: var(--color-red-500);
-  --color-success: var(--color-teal-500);
-  --color-warning: var(--color-orange-500);
-  --color-info: var(--color-slate-500);
-  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
-
-  /* RGB versions for light mode */
-  --color-success-rgb: var(--color-teal-500-rgb);
-  --color-error-rgb: var(--color-red-500-rgb);
-  --color-warning-rgb: var(--color-orange-500-rgb);
-  --color-info-rgb: var(--color-slate-500-rgb);
+  /* RGB versions for opacity control */
+  --color-success-rgb: var(--color-accent-blue-rgb);
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: var(--color-logo-brown-rgb);
 
   /* Typography */
   --font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -220,46 +144,41 @@
 /* Dark mode colors */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-gray-400-rgb: 119, 124, 124;
-    --color-teal-300-rgb: 50, 184, 198;
-    --color-gray-300-rgb: 167, 169, 169;
-    --color-gray-200-rgb: 245, 245, 245;
-
-    --color-bg-1: rgba(29, 78, 216, 0.15);
-    --color-bg-2: rgba(180, 83, 9, 0.15);
-    --color-bg-3: rgba(21, 128, 61, 0.15);
-    --color-bg-4: rgba(185, 28, 28, 0.15);
-    --color-bg-5: rgba(107, 33, 168, 0.15);
-    --color-bg-6: rgba(194, 65, 12, 0.15);
-    --color-bg-7: rgba(190, 24, 93, 0.15);
-    --color-bg-8: rgba(8, 145, 178, 0.15);
+    --color-bg-1: rgba(252, 220, 125, 0.15); /* Dark butter */
+    --color-bg-2: rgba(75, 46, 20, 0.15); /* Dark brown */
+    --color-bg-3: rgba(59, 90, 138, 0.15); /* Dark accent blue */
+    --color-bg-4: rgba(185, 28, 28, 0.15); /* Dark red */
+    --color-bg-5: rgba(107, 33, 168, 0.15); /* Dark purple */
+    --color-bg-6: rgba(194, 65, 12, 0.15); /* Dark orange */
+    --color-bg-7: rgba(190, 24, 93, 0.15); /* Dark pink */
+    --color-bg-8: rgba(8, 145, 178, 0.15); /* Dark cyan */
     
-    --color-background: var(--color-charcoal-700);
-    --color-surface: var(--color-charcoal-800);
-    --color-text: var(--color-gray-200);
-    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
-    --color-primary: var(--color-teal-300);
-    --color-primary-hover: var(--color-teal-400);
-    --color-primary-active: var(--color-teal-800);
-    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
-    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
-    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
-    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-background: var(--color-dark-chocolate);
+    --color-surface: var(--color-navy-blue);
+    --color-text: var(--color-cream-bg);
+    --color-text-secondary: rgba(var(--color-cream-bg-rgb), 0.7);
+    --color-primary: var(--color-butter-yellow);
+    --color-primary-hover: #F5D05A;
+    --color-primary-active: #E8C547;
+    --color-secondary: rgba(var(--color-butter-yellow-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-butter-yellow-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-butter-yellow-rgb), 0.3);
+    --color-border: rgba(var(--color-butter-yellow-rgb), 0.3);
     --color-error: var(--color-red-400);
-    --color-success: var(--color-teal-300);
+    --color-success: var(--color-light-blue);
     --color-warning: var(--color-orange-400);
-    --color-info: var(--color-gray-300);
-    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
-    --color-btn-primary-text: var(--color-slate-900);
-    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
-    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-info: var(--color-cream-bg);
+    --color-focus-ring: rgba(var(--color-butter-yellow-rgb), 0.4);
+    --color-btn-primary-text: var(--color-dark-chocolate);
+    --color-card-border: rgba(var(--color-butter-yellow-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-butter-yellow-rgb), 0.15);
     --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-    --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+    --color-select-caret: rgba(var(--color-cream-bg-rgb), 0.8);
 
-    --color-success-rgb: var(--color-teal-300-rgb);
-    --color-error-rgb: var(--color-red-400-rgb);
-    --color-warning-rgb: var(--color-orange-400-rgb);
-    --color-info-rgb: var(--color-gray-300-rgb);
+    --color-success-rgb: var(--color-light-blue);
+    --color-error-rgb: var(--color-red-400);
+    --color-warning-rgb: var(--color-orange-400);
+    --color-info-rgb: var(--color-cream-bg-rgb);
   }
 }
 
@@ -480,7 +399,7 @@ select.form-control {
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(var(--color-slate-900-rgb), 0.95);
+  background: rgba(var(--color-dark-chocolate-rgb), 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--color-border);
   z-index: 1000;
@@ -578,7 +497,7 @@ select.form-control {
 .hero-title {
   font-size: clamp(var(--font-size-4xl), 8vw, 4rem);
   margin-bottom: var(--space-16);
-  background: linear-gradient(135deg, var(--color-primary), var(--color-teal-300));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-logo-brown));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -680,7 +599,7 @@ select.form-control {
 }
 
 .accuracy-fill.butter-labs {
-  background: linear-gradient(90deg, var(--color-primary), var(--color-teal-300));
+  background: linear-gradient(90deg, var(--color-primary), var(--color-logo-brown));
   width: 98%;
 }
 
@@ -722,7 +641,7 @@ select.form-control {
   padding: var(--space-12) var(--space-20);
   border-radius: var(--radius-full);
   font-weight: var(--font-weight-medium);
-  border: 1px solid rgba(var(--color-teal-500-rgb), 0.2);
+  border: 1px solid rgba(var(--color-accent-blue-rgb), 0.2);
 }
 
 .features-grid {
@@ -924,8 +843,8 @@ select.form-control {
 
 /* Footer */
 .footer {
-  background: var(--color-slate-900);
-  color: var(--color-gray-200);
+  background: var(--color-dark-chocolate);
+  color: var(--color-cream-bg);
   padding: var(--space-32) 0 var(--space-16);
   margin-top: var(--space-32);
 }
@@ -938,12 +857,12 @@ select.form-control {
 }
 
 .footer-brand h3 {
-  color: var(--color-teal-300);
+  color: var(--color-butter-yellow);
   margin-bottom: var(--space-8);
 }
 
 .footer-brand p {
-  color: var(--color-gray-300);
+  color: var(--color-cream-bg);
   margin-bottom: var(--space-4);
 }
 
@@ -958,7 +877,7 @@ select.form-control {
 }
 
 .footer-section h4 {
-  color: var(--color-teal-300);
+  color: var(--color-butter-yellow);
   margin-bottom: var(--space-16);
 }
 
@@ -971,13 +890,13 @@ select.form-control {
 }
 
 .footer-section a {
-  color: var(--color-gray-300);
+  color: var(--color-cream-bg);
   text-decoration: none;
   transition: color var(--duration-fast);
 }
 
 .footer-section a:hover {
-  color: var(--color-teal-300);
+  color: var(--color-butter-yellow);
 }
 
 .footer-bottom {
@@ -985,7 +904,7 @@ select.form-control {
   justify-content: space-between;
   align-items: center;
   padding-top: var(--space-16);
-  border-top: 1px solid rgba(var(--color-gray-400-rgb), 0.3);
+  border-top: 1px solid rgba(var(--color-butter-yellow-rgb), 0.3);
   flex-wrap: wrap;
   gap: var(--space-16);
 }
@@ -996,13 +915,13 @@ select.form-control {
 }
 
 .footer-legal a {
-  color: var(--color-gray-300);
+  color: var(--color-cream-bg);
   text-decoration: none;
   font-size: var(--font-size-sm);
 }
 
 .footer-legal a:hover {
-  color: var(--color-teal-300);
+  color: var(--color-butter-yellow);
 }
 
 @media (max-width: 768px) {
@@ -1419,28 +1338,28 @@ select.form-control {
                             <div style="display: flex; align-items: center; gap: var(--space-12);">
                                 <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Scottish</span>
                                 <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
-                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-teal-300)); border-radius: var(--radius-sm); width: 18%;"></div>
+                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-logo-brown)); border-radius: var(--radius-sm); width: 18%;"></div>
                                 </div>
                                 <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">18%</span>
                             </div>
                             <div style="display: flex; align-items: center; gap: var(--space-12);">
                                 <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Yorkshire</span>
                                 <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
-                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-teal-300)); border-radius: var(--radius-sm); width: 15%;"></div>
+                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-logo-brown)); border-radius: var(--radius-sm); width: 15%;"></div>
                                 </div>
                                 <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">15%</span>
                             </div>
                             <div style="display: flex; align-items: center; gap: var(--space-12);">
                                 <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Geordie</span>
                                 <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
-                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-teal-300)); border-radius: var(--radius-sm); width: 12%;"></div>
+                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-logo-brown)); border-radius: var(--radius-sm); width: 12%;"></div>
                                 </div>
                                 <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">12%</span>
                             </div>
                             <div style="display: flex; align-items: center; gap: var(--space-12);">
                                 <span style="min-width: 120px; font-size: var(--font-size-sm); color: var(--color-text-secondary);">Other</span>
                                 <div style="flex: 1; height: 20px; background: var(--color-secondary); border-radius: var(--radius-sm); overflow: hidden;">
-                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-teal-300)); border-radius: var(--radius-sm); width: 55%;"></div>
+                                    <div style="height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-logo-brown)); border-radius: var(--radius-sm); width: 55%;"></div>
                                 </div>
                                 <span style="min-width: 40px; text-align: right; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-primary);">55%</span>
                             </div>
